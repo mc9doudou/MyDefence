@@ -101,6 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 70
+  bulletImpactPrefab: {fileID: 6852209006491158391, guid: ef090d7780050ec4da7f5c1e33f3e932, type: 3}
 --- !u!135 &6234754185356499403
 SphereCollider:
   m_ObjectHideFlags: 0

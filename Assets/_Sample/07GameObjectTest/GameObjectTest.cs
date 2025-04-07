@@ -47,7 +47,7 @@ namespace Sample
 
             //4) Instantiate(프리팹 오브젝트, 생성위치, 생성회전값)의 반환값으로 
             //GameObject의 객체(인스턴스) 가져오기
-            //Instantiate(gameObjectPrefab,this.transform.transform,Quaternion.identity)
+            //GameObject prefabGo = Instantiate(gameObjectPrefab, this.transform.position, Quaternion.identity);
 
             //5)parentObject.childCount, parentObject.GetChild 반환값으로 
             //자식 게임오브젝트들의 객체를 가져온다
@@ -60,8 +60,8 @@ namespace Sample
             //6) 클래스이름. 객체이름 으로 접근하여 사용
             //SingleTonTest.Instance
             //SingleTonTest.Instance.number = 10;
-            singletonTest = SingleTonTest.Instance;
-            singletonTest.number = 10;
+            //singletonTest = SingleTonTest.Instance;
+            //singletonTest.number = 10;
         }
 
         // Update is called once per frame

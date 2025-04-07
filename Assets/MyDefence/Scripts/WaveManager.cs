@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using TMPro;
 
-namespace Mydefence
+namespace MyDefence
 {
 
     //Enemy 스폰/ 웨이브를 관리하는 스크립트
@@ -56,7 +56,7 @@ namespace Mydefence
         {
             waveCount++;
             //Debug.Log($"waveCount: {waveCount}");
-            if (waveCount < 6)
+            if (waveCount < 30)
             {
                 for (int i = 0; i < waveCount; i++)
                 {

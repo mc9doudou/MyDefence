@@ -43,13 +43,12 @@ namespace MyDefence
 
             transform.Translate(dir.normalized * Time.deltaTime * moveSpeed, Space.World);
         }
-        //타겟을 맞추다
-        void HitTarget()
+        //타겟을 맞추고 적을 킬 - bullet
+        protected virtual void HitTarget()
         {
             //타격 effect 효과
             GameObject effectGo = Instantiate(bulletImpactPrefab, this.transform.position,Quaternion.identity);
             Destroy(effectGo,2f);
-            //Debug.Log("Hit Target!!!");
 
             //타겟 게임오브젝트 킬
             Destroy(target.gameObject);

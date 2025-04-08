@@ -30,13 +30,13 @@ namespace MyDefence
         //타일에 설치할 타워 프리펩 오브젝트를 저장하는 변수
         private GameObject towerToBuild;
         //타워 프리팹
-        public GameObject machineGunPrefab;
-        public GameObject rocketTowerPrefab;
+        //public GameObject machineGunPrefab;
+        //public GameObject rocketTowerPrefab;
         #endregion
         private void Start()
         {
             //초기화
-            towerToBuild = machineGunPrefab;
+            
         }
 
         //타일에 설치할 타워 프리펩 오브젝트 저장하기

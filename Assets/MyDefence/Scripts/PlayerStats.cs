@@ -15,6 +15,10 @@ namespace MyDefence
         private int startmoney = 400;
 
         public TextMeshProUGUI moneyText;
+
+        private static int lives;
+
+        public TextMeshProUGUI liveText;
         #endregion
 
         #region Property
@@ -23,6 +27,8 @@ namespace MyDefence
         {
             get { return money; }
         }
+
+
         #endregion
         
 
@@ -35,28 +41,16 @@ namespace MyDefence
         {
             //소지금 지급 400
             money = startmoney;
+            Debug.Log("초기 소지금 400G 지급");
         }
-        private  void Updata()
+
+        private void Update()
         {
-            if (HasMoney(1000))
-            {
-                machineGunTower.interactable = true;
-            }
-            else
-            {
-                machineGunTower.interactable = false;
-            }
-            if (HasMoney(9000))
-            {
-                rocketTower.interactable = true;
-            }
-            else
-            {
-                rocketTower.interactable = false;
-            }
-            //소지금(gold)와 UI(골드텍스트) 연결 
-            moneyText.text = money.ToString() + " Gold";
-        }
+            //소지금(gold)와 UI(골드텍스트) 연결
+            moneyText.text = money.ToString();
+            liveText.text = lives.ToString();
+
+        } 
         public static void AddMoney(int amount)
         {
             money += amount;
@@ -83,6 +77,11 @@ namespace MyDefence
             }
             return true;*/
         }
+
+        /*public static void HeartBreak(int heart)
+        {
+            lives = heart;
+        }*/
 
         public static void MachineGunTower()
         {

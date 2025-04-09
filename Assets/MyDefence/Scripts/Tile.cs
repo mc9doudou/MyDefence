@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Playables;
 namespace MyDefence
 {
     //맵의 타일을 관리하는 클래스
@@ -24,6 +25,8 @@ namespace MyDefence
 
         //타일에 설치한 타워 오브젝트
         private GameObject tower;
+
+        private TowerBluePrint bluePrint;
         #endregion
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -56,20 +59,29 @@ namespace MyDefence
                 return;
             }
 
-            //Debug.Log("이 스크립트가 붙어있는 타일위에 터렛을 설치");
-            tower = Instantiate(buildManager.GetTowerToBuild(), this.transform.position, Quaternion.identity);
+            int buildCost = buildManager.GetTowerToBuild().cost;
+
+            //돈 계산
+            if (PlayerStats.UseMoney(buildCost))
+            {
+                bluePrint = buildManager.GetTowerToBuild();
+
+                //Debug.Log("이 스크립트가 붙어있는 타일위에 터렛을 설치");
+                tower = Instantiate(bluePrint.towerPrefab, this.transform.position, Quaternion.identity);
+            }
 
             //초기화 - 저장된 타워 프리팹 초기화 
             buildManager.SetTowerToBuild(null);
+
+            Debug.Log($"건설하고 님은돈:{PlayerStats.Money}");
         }
         private void OnMouseEnter()
         {
-            if (buildManager.GetTowerToBuild() == null)
+            if (bluePrint == null)
             {
                 //Debug.Log("설치할 타워이 없습니다");
                 return;
             }
-
             //renderer.material.color = hoverColor;
             renderer.material = hoverMaterial;
         }
@@ -78,8 +90,6 @@ namespace MyDefence
             //renderer.material.color = startcolor;
             renderer.material = startMaterial;
         }
-        
-        
     }
 }
 

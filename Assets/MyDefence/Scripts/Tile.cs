@@ -15,6 +15,8 @@ namespace MyDefence
         //마우스를 올려놓으면 변하는 메터리얼
         public Material hoverMaterial;
 
+        public Material nullMaterial;
+
         private Material startMaterial;
 
         //타일의 Renderer
@@ -27,6 +29,9 @@ namespace MyDefence
         private GameObject tower;
 
         private TowerBluePrint bluePrint;
+
+        //설치한 타워 가져오기
+        public GameObject buildEffectPrefab;
         #endregion
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
@@ -47,7 +52,7 @@ namespace MyDefence
                 return;
             }
             //저장된 프리팹 체크
-            if (buildManager.GetTowerToBuild() == null)
+            if (buildManager.CannotBuild)
             {
                 Debug.Log("설치할 타워이 없습니다");
                 return;
@@ -55,21 +60,33 @@ namespace MyDefence
             //현재 타일에 타워가 설체되었는지 체크
             if (tower != null)
             {
-                Debug.Log("타워를 설체할수 없습니다");
+                Debug.Log("타워를 설치할수 없습니다");
                 return;
             }
+            //타워를 건설한다
+            BuildTower();
+            
+        }
 
-            int buildCost = buildManager.GetTowerToBuild().cost;
+        void BuildTower()
+        {
+            //건설 비용 체크
+            
+            if (buildManager.NotEnoughMoney)
+                return;
+            
+            //건설할 타워의 정보를 저장
+            bluePrint = buildManager.GetTowerToBuild();
 
             //돈 계산
-            if (PlayerStats.UseMoney(buildCost))
-            {
-                bluePrint = buildManager.GetTowerToBuild();
+            PlayerStats.UseMoney(bluePrint.cost);
+            //Debug.Log("이 스크립트가 붙어있는 타일위에 터렛을 설치");
+            tower = Instantiate(bluePrint.towerPrefab, this.transform.position, Quaternion.identity);
 
-                //Debug.Log("이 스크립트가 붙어있는 타일위에 터렛을 설치");
-                tower = Instantiate(bluePrint.towerPrefab, this.transform.position, Quaternion.identity);
-            }
-
+            //건설 이팩트 처리
+            GameObject effectGo = Instantiate(buildEffectPrefab, this.transform.position,Quaternion.identity);
+            Destroy(effectGo,2f);
+            
             //초기화 - 저장된 타워 프리팹 초기화 
             buildManager.SetTowerToBuild(null);
 
@@ -77,13 +94,21 @@ namespace MyDefence
         }
         private void OnMouseEnter()
         {
-            if (bluePrint == null)
+            
+            if (buildManager.CannotBuild)
             {
                 //Debug.Log("설치할 타워이 없습니다");
                 return;
             }
-            //renderer.material.color = hoverColor;
-            renderer.material = hoverMaterial;
+            if (buildManager.NotEnoughMoney)
+            {
+                renderer.material = nullMaterial;
+            }
+            else
+            {
+                //renderer.material.color = hoverColor;
+                renderer.material = hoverMaterial;
+            }
         }
         private void OnMouseExit()
         {

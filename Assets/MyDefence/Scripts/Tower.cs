@@ -7,8 +7,10 @@ namespace MyDefence
         //공격범위
         public float attackRange = 7f;
 
-        //가장 가까운 적
-        private Transform target;
+        //가장 가까운 적 트렌스폼
+        protected Transform target;
+        protected Enemy targetEnemy;
+
         public float searchTimer = 0.5f;
         //private float countdown = 0f;
         //Enemy tag
@@ -32,8 +34,8 @@ namespace MyDefence
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //updateTarget 함수를 즉시 0.5초마다 반복해서 호출하디
-            InvokeRepeating("UpdateTarget", 0f, 0.5f);
+            //updateTarget 함수를 즉시 0.1초마다 반복해서 호출하디
+            InvokeRepeating("UpdateTarget", 0f, 0.1f);
         }
 
         private void UpdateTarget()
@@ -58,16 +60,18 @@ namespace MyDefence
             if (nearEnemy != null && minDistance <= attackRange)
             {
                 target = nearEnemy.transform;
+                targetEnemy = target.GetComponent<Enemy>();
                 //Debug.Log($"find target");
 
             }
             else
             {
                 target = null;
+                targetEnemy = null;
             }
         }
         // Update is called once per frame
-        void Update()
+        protected virtual void Update()
         {
             /*countdown += Time.deltaTime;
             if(countdown >= searchTimer)
@@ -104,7 +108,7 @@ namespace MyDefence
 
         }
 
-        void LockOn()
+        protected void LockOn()
         {
             Vector3 dir = target.position - this.transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(dir);

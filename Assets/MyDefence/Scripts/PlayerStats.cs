@@ -1,10 +1,8 @@
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using System;
+
 namespace MyDefence
 {
-    //플레이어의 속성들을 관리하는 클래스
+    //플레이어의 속성(데이터)들을 관리하는 클래스
     public class PlayerStats : MonoBehaviour
     { 
         #region Field
@@ -14,11 +12,12 @@ namespace MyDefence
         [SerializeField]
         private int startmoney = 400;
 
-        public TextMeshProUGUI moneyText;
+        private static int health;
 
-        private static int lives;
+        [SerializeField]
+        private int starthealth = 10;
 
-        public TextMeshProUGUI liveText;
+
         #endregion
 
         #region Property
@@ -27,38 +26,35 @@ namespace MyDefence
         {
             get { return money; }
         }
+        public static int Health
+        {
+            get { return health; }
+        }
 
+        //Round 카운트
+        public static int Rounds { get; set; }
 
         #endregion
-        
 
         //소지금 초기값 400
-        //벌기, 쓰기, 소지금 확인 함수 만들기 
-        public Button machineGunTower;
-        public Button rocketTower;
-
         private void Start()
         {
             //소지금 지급 400
             money = startmoney;
-            Debug.Log("초기 소지금 400G 지급");
+            health = starthealth;
+            Rounds = 0;
         }
-
         private void Update()
         {
-            //소지금(gold)와 UI(골드텍스트) 연결
-            moneyText.text = money.ToString();
-            liveText.text = lives.ToString();
 
-        } 
+        }
+        //벌기, 쓰기, 소지금 확인 함수 만들기 
         public static void AddMoney(int amount)
         {
             money += amount;
         }
-
         public static bool UseMoney(int amount)
         {
-            
             if (money < amount)
             {
                 Debug.Log("돈이 부족합니다");
@@ -70,33 +66,20 @@ namespace MyDefence
         public static bool HasMoney(int amount)
         {
             return money >= amount;
-            /*//소지금 체크
-            if (money < amount)
-            {
-                return false;
-            }
-            return true;*/
         }
-
-        /*public static void HeartBreak(int heart)
+        //생명 추가
+        public static void AddHealth(int amount)
         {
-            lives = heart;
-        }*/
-
-        public static void MachineGunTower()
+            health += amount;
+        }
+        //생명 사용하기, 소모
+        public static void UseHealth(int amount)
         {
-            if (UseMoney(100) == true)
+            health -= amount;
+            if (health <= 0)
             {
-                Debug.Log($"건설하고 남은돈 :{money - 100}");
+                health = 0;
             }
         }
-        public static void RocketTower()
-        {
-            if (UseMoney(250) == true)
-            {
-                Debug.Log($"건설하고 남은돈 :{money - 250}");
-            }
-        }
-
     }
 }

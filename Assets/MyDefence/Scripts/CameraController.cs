@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace MyDefence
 {
@@ -29,15 +28,18 @@ namespace MyDefence
         // Update is called once per frame
         void Update()
         {
-            //esc key를 한번 누르면 카메라 이동을 못하게 한다 isCannotMove = true (!isCannotMove)
+            //게임 오버 체크
+            if (GameManager.IsGameOver == true)
+                return;
+
+            /*//esc key를 한번 누르면 카메라 이동을 못하게 한다 isCannotMove = true (!isCannotMove)
             //esc key를 다시 한번 누르면 카메라 이동을 하게 한다 isCannotMove = false (!isCannotMove)
-            
+
             if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                isCannotMove = !isCannotMove;
-            }
+            {isCannotMove = !isCannotMove;}
             //isCannotMove가 true이면 return 아래 코드를 실행하지 말라 
-            if (isCannotMove) { return; }
+            if (isCannotMove) { return; }*/
+
             //A,S,D,W 키 (키보드의 상하좌우 화살표)값을 받아 맵을 스크롤 시킨다 -> 카메라 이동 시키면
             if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.UpArrow))
             {

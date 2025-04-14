@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using UnityEngine;
 namespace MyDefence
 {
@@ -15,8 +14,8 @@ namespace MyDefence
         //타격effect 프리팹
         public GameObject bulletImpactPrefab;
 
-        //public string enemyTag = "Enemy";
-        
+        //공격 데미지 
+        [SerializeField] protected float attackDamage = 50f;
         #endregion
         public void setTarget(Transform _target)
         {
@@ -42,7 +41,12 @@ namespace MyDefence
             }
 
             transform.Translate(dir.normalized * Time.deltaTime * moveSpeed, Space.World);
+
+            //타겟을 바라보며 이동하기
+            transform.LookAt(target);
         }
+
+
         //타겟을 맞추고 적을 킬 - bullet
         protected virtual void HitTarget()
         {
@@ -50,10 +54,25 @@ namespace MyDefence
             GameObject effectGo = Instantiate(bulletImpactPrefab, this.transform.position,Quaternion.identity);
             Destroy(effectGo,2f);
 
-            //타겟 게임오브젝트 킬
-            Destroy(target.gameObject);
+            //타겟에게 대미지 주기
+            Damage(target);
+
             //탄환 오브젝트 킬
             Destroy(this.gameObject);
+        }
+        
+        //매개변수로 들어온 타겟에게 데미지 주기
+        protected void Damage(Transform _target)
+        {
+            //타겟 게임오브젝트 킬 - 원샷/원킬
+            //Destroy(_target.gameObject);
+
+            //attackDamage 만큼 타겟의 Health 감산
+            Enemy enemy = _target.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+                enemy.TakeDamage(attackDamage);
+            }
         }
     }
 }

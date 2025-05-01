@@ -1,62 +1,62 @@
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
+
 namespace MyDefence
 {
-    //·ÎÄÏ °ü¸®ÇÏ´Â Å¬·¡½º 
+    //ë¡œì¼“ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
     public class Rocket : Bullet
     {
-        #region Field 
-        //µ¥¹ÌÁö ¿µ¿ª
+        #region Field
+        //ë°ë¯¸ì§€ ì˜ì—­
         public float damageRange = 3.5f;
-
-        //enemy ÅÂ±×
+        //enemy ì˜¤ë¸Œì íŠ¸ íƒœê·¸ ìŠ¤íŠ¸ë§
         public string enemyTag = "Enemy";
         #endregion
 
-        //Å¸°ÙÀ» ¸ÂÃß¾î Æø¹ßÇÏ¿© µ¥¹ÌÁö ¿µ¿ª¿¡ ÀÖ´Â Àû Å³ - Rocket
+        //íƒ€ê²Ÿì„ ë§ì¶”ì–´ í­ë°œí•˜ì—¬ ë°ë¯¸ì§€ ì˜ì—­ì— ìˆëŠ” ì  í‚¬ - ë·¸ë ›
         protected override void HitTarget()
         {
+            //íƒ€ê²© ì´í™íŠ¸ íš¨ê³¼
             GameObject effectGo = Instantiate(bulletImpactPrefab, this.transform.position, Quaternion.identity);
             Destroy(effectGo, 2f);
 
-            //Æø¹ß
+            //í­ë°œ
             Explosion();
 
-            //·ÎÄÏ ¿ÀºêÁ§Æ® Å³
+            //ë¡œì¼“ ê²Œì„ì˜¤ë¸Œì íŠ¸ í‚¬
             Destroy(this.gameObject);
         }
 
-        //Æø¹ß - µ¥¹ÌÁö ¿µ¿ª¿¡ ÀÖ´Â ÀûÀ» Ã£¾Æ Å³
-        //Æø¹ßÁöÁ¡À¸·Î ºÎÅÍ °¢ Enemyµé°úÀÇ °Å¸®¸¦ ±¸ÇÏ¿© °Å¸®¿¡ ¹İºñ·ÊÇÏ¿© µ¥¹ÌÁö ÁÖ±â
+        //í­ë°œ - ë°ë¯¸ì§€ ì˜ì—­(3.5f)ì— ìˆëŠ” ì ì„ ì°¾ì•„ í‚¬
+        //í­ë°œì§€ì ìœ¼ë¡œë¶€í„° ê° Enemyë“¤ê³¼ì˜ ê±°ë¦¬ë¥¼ êµ¬í•˜ì—¬ ê±°ë¦¬ì— ë°˜ë¹„ë¡€í•˜ì—¬ ë°ë¯¸ì§€ ì£¼ê¸°
         private void Explosion()
         {
             Collider[] hitColliders = Physics.OverlapSphere(this.transform.position, damageRange);
-            //µ¥¹ÌÁö ¿µ¾Ç¾ÈÀÇ ¸ğµç Ãæµ¹Ã¼¿¡¼­ enemy Ã£±â
+            //ë°ë¯¸ì§€ ì˜ì—­ì•ˆì˜ ëª¨ë“  ì¶©ëŒì²´ì—ì„œ Enemy ì°¾ê¸°
             foreach (var hitCollider in hitColliders)
             {
                 if (hitCollider.tag == enemyTag)
                 {
-                    //°Å¸®±¸ÇÏ±â
+                    //ê±°ë¦¬êµ¬í•˜ê¸°
                     float distance = Vector3.Distance(this.transform.position, hitCollider.transform.position);
-                    //°Å¸® ¹Ì·Ê·Î µ¥¹ÌÁö ±¸ÇÏ±â
-                    float damage = attackDamage * ((damageRange-distance)/damageRange);
-
+                    //ê±°ë¦¬ ë°˜ë¹„ë¡€ë¡œ ë°ë¯¸ì§€êµ¬í•˜ê¸°
+                    float damage = attackDamage * ( (damageRange - distance) / damageRange);
                     Enemy enemy = hitCollider.GetComponent<Enemy>();
-                    if (enemy != null)
+                    if(enemy != null)
                     {
-                        enemy.TakeDamage(damage);
+                        enemy.TakeDamege(damage);
                     }
-                    /*//Destroy(hitCollider.gameObject);
-                    Damage(hitCollider.transform);*/
                 }
             }
         }
 
-        //±âÁî¸ğ µ¥¹ÌÁö ¿µ¿ª ±×¸®±â
+
+        //ê¸°ì¦ˆëª¨: ë°ë¯¸ì§€ ì˜ì—­ ê·¸ë¦¬ê¸°
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(this.transform.position,damageRange);
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(this.transform.position, damageRange);
         }
+
     }
 }
-

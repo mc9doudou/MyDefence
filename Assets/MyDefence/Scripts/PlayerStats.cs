@@ -2,84 +2,90 @@ using UnityEngine;
 
 namespace MyDefence
 {
-    //ÇÃ·¹ÀÌ¾îÀÇ ¼Ó¼º(µ¥ÀÌÅÍ)µéÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+    //í”Œë ˆì´ì–´ì˜ ì†ì„±(ë°ì´í„°)ë“¤ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
     public class PlayerStats : MonoBehaviour
-    { 
+    {
         #region Field
-        //¼ÒÁö±İ
+        //ì†Œì§€ê¸ˆ
         private static int money;
 
-        [SerializeField]
-        private int startmoney = 400;
+        //ì´ˆê¸° ì†Œì§€ê¸ˆ
+        [SerializeField] private int startMoney = 400;
 
-        private static int health;
+        //Life
+        private static int lives;
 
-        [SerializeField]
-        private int starthealth = 10;
-
-
+        //ì´ˆê¸° ìƒëª…ë ¥
+        [SerializeField] private int startLives = 10;
         #endregion
 
         #region Property
-        //¼ÒÁö±İ ÀĞ±â Àü¿ë ¼Ó¼º
+        //ì†Œì§€ê¸ˆ ì½ê¸° ì „ìš© ì†ì„±
         public static int Money
         {
             get { return money; }
         }
-        public static int Health
+
+        //Life ì½ê¸° ì „ìš© ì†ì„±
+        public static int Lives
         {
-            get { return health; }
+            get { return lives; }
         }
 
-        //Round Ä«¿îÆ®
+        //Round ì¹´ìš´íŠ¸
         public static int Rounds { get; set; }
-
         #endregion
 
-        //¼ÒÁö±İ ÃÊ±â°ª 400
         private void Start()
         {
-            //¼ÒÁö±İ Áö±Ş 400
-            money = startmoney;
-            health = starthealth;
+            //ì´ˆê¸°í™”
+            //ì´ˆê¸° ì†Œì§€ê¸ˆ ì§€ê¸‰ 400, ì´ˆê¸° ìƒëª… 10 ì§€ê¸‰
+            money = startMoney;
+            lives = startLives;
             Rounds = 0;
         }
-        private void Update()
-        {
 
-        }
-        //¹ú±â, ¾²±â, ¼ÒÁö±İ È®ÀÎ ÇÔ¼ö ¸¸µé±â 
+        //ë²Œê¸°, ì“°ê¸°, ì†Œì§€ê¸ˆ í™•ì¸ í•¨ìˆ˜ ë§Œë“¤ê¸°
         public static void AddMoney(int amount)
         {
             money += amount;
         }
+
         public static bool UseMoney(int amount)
         {
-            if (money < amount)
+            //ì†Œì§€ê¸ˆ ì²´í¬
+            if(money < amount)
             {
-                Debug.Log("µ·ÀÌ ºÎÁ·ÇÕ´Ï´Ù");
+                //Debug.Log("ì†Œì§€ê¸ˆì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
                 return false;
             }
+
             money -= amount;
             return true;
         }
+
         public static bool HasMoney(int amount)
         {
             return money >= amount;
         }
-        //»ı¸í Ãß°¡
-        public static void AddHealth(int amount)
+
+        //ìƒëª… ì¶”ê°€
+        public static void AddLife(int amount)
         {
-            health += amount;
+            lives += amount;
         }
-        //»ı¸í »ç¿ëÇÏ±â, ¼Ò¸ğ
-        public static void UseHealth(int amount)
+
+        //ìƒëª… ì‚¬ìš©í•˜ê¸°, ì†Œëª¨
+        public static void UseLife(int amount)
         {
-            health -= amount;
-            if (health <= 0)
+            lives -= amount;
+
+            if(lives <= 0)
             {
-                health = 0;
+                lives = 0;
             }
         }
+
+
     }
 }

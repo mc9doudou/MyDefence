@@ -2,6 +2,7 @@ using UnityEngine;
 
 namespace MyDefence
 {
+    //Waypoint들의 정보를 가져오는 클래스
     public class WayPoints : MonoBehaviour
     {
         #region Field
@@ -11,6 +12,7 @@ namespace MyDefence
         private void Awake()
         {
             //필드 초기화
+            //자식의 갯수를 가져와 웨이포인트 배열 생성
             wayPoints = new Transform[this.transform.childCount];
             for (int i = 0; i < wayPoints.Length; i++)
             {

@@ -3,11 +3,12 @@ using TMPro;
 
 namespace MyDefence
 {
-    //ÇÃ·¹ÀÌ È­¸éÀÇ Money UI ±×¸®±â
+    //í”Œë ˆì´ í™”ë©´ì˜ Money UI ê·¸ë¦¬ê¸°
     public class DrawMoneyUI : MonoBehaviour
     {
         public TextMeshProUGUI moneyText;
-        
+
+        // Update is called once per frame
         void Update()
         {
             moneyText.text = PlayerStats.Money.ToString();

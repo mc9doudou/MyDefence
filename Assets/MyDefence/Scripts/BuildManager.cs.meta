@@ -1,13 +1,2 @@
 fileFormatVersion: 2
-guid: d484831049b23b84f8030a8dbcb9eb0b
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - machineGunPrefab: {fileID: 1975534417122352718, guid: 075a9bd7db164e641b9e9fd365d9a3e2, type: 3}
-  - misslePrefab: {fileID: 1975534417122352718, guid: d2ba4d1c36846d646a7a097d6fbcad77, type: 3}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+guid: 16da5ae15517134468505aaf90a85408

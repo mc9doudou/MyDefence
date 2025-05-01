@@ -1,52 +1,66 @@
 using UnityEngine;
+
 namespace MyDefence
 {
+    //íƒ€ì›Œ ë¶€ëª¨ í´ë˜ìŠ¤ - íƒ€ì›Œ ê¸°ë³¸ ê¸°ëŠ¥
     public class Tower : MonoBehaviour
     {
         #region Field
-        //°ø°İ¹üÀ§
-        public float attackRange = 7f;
+        //ê³µê²© ë²”ìœ„
+        public float attackRange = 5f;
 
-        //°¡Àå °¡±î¿î Àû Æ®·»½ºÆû
+        //ê°€ì¥ ê°€ê¹Œìš´ ì  íŠ¸ëœìŠ¤í¼
         protected Transform target;
-        protected Enemy targetEnemy;
+        protected IDamageable targetEnemy;
 
-        public float searchTimer = 0.5f;
-        //private float countdown = 0f;
         //Enemy tag
         public string enemyTag = "Enemy";
 
-        //ÅÍ·¿ Çìµå È¸Àü 
+        //search íƒ€ì´ë¨¸
+        public float searchTimer = 0.5f;
+        //private float countdown = 0f;
+
+        //í„°ë › í—¤ë“œ íšŒì „
         public Transform partToRotate;
         public float turnSpeed = 5f;
 
-        //shoot Æ¼ÀÌ¸Ó - 1ÃÊ¿¡ 1¹ß¾¿ ¹ß»ç
+        //shoot íƒ€ì´ë¨¸ - 1ì´ˆì— í•œë°œì”© ë°œì‚¬
         public float shootTimer = 1f;
         private float shootCountdown = 0;
 
-        //Bullet ¹ß»ç
-        //bullet ÇÁ¸®ÆÕ
+        //Bullet ë°œì‚¬
+        //ë·¸ë › í”„ë¦¬íŒ¹
         public GameObject bulletPrefab;
-        //¹ß»ç À§Ä¡
-        public Transform FirePoint;
-
+        //ë°œì‚¬ ìœ„ì¹˜
+        public Transform firePoint;
         #endregion
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //updateTarget ÇÔ¼ö¸¦ Áï½Ã 0.1ÃÊ¸¶´Ù ¹İº¹ÇØ¼­ È£ÃâÇÏµğ
+            //UpdateTarget í•¨ìˆ˜ë¥¼ ì¦‰ì‹œ 0.5ì´ˆ ë§ˆë‹¤ ë°˜ë³µí•´ì„œ í˜¸ì¶œí•œë‹¤
             InvokeRepeating("UpdateTarget", 0f, 0.1f);
         }
 
+        //ê°€ì¥ ê°€ê¹Œìš´ ì  ì°¾ê¸°
         private void UpdateTarget()
         {
             GameObject[] enemies = GameObject.FindGameObjectsWithTag(enemyTag);
-            //ÃÖ¼Ò °Å¸® ±¸ÇÏ´Â µ¿½Ã¿¡ Àû ±¸º°ÇÏ±â
+
+            //ìµœì†Œ ê±°ë¦¬ ì¼ë•Œì˜ ì  êµ¬í•˜ê¸°
             float minDistance = float.MaxValue;
             GameObject nearEnemy = null;
 
             foreach (var enemy in enemies)
             {
+                //ì¢…ì ì— ë„ì°©í•œ enemyì œê±°
+                Enemy arriveEnemy = enemy.GetComponent<Enemy>();
+                if (arriveEnemy != null && arriveEnemy.IsArrive == true)
+                {
+                    continue;
+                }
+
+                //íƒìƒ‰
                 float distance = Vector3.Distance(this.transform.position, enemy.transform.position);
                 if (distance < minDistance)
                 {
@@ -55,68 +69,78 @@ namespace MyDefence
                 }
             }
 
-            //target = nearEnemy.transform;
-            //Debug.Log($"minDistance : {minDistance}");
+            //Debug.Log($"minDistance: {minDistance}"); 
+            //ê°€ì¥ ê°€ê¹Œìš´ ì ì´ê³ , ê³µê²© ë²”ìœ„ ì•ˆì— ìˆì–´ì•¼ ë˜ê³ , ì¢…ì  ë„ì°© í•˜ì§€ ì•Šì•˜ì–´ì•¼ í•œë‹¤
             if (nearEnemy != null && minDistance <= attackRange)
             {
                 target = nearEnemy.transform;
-                targetEnemy = target.GetComponent<Enemy>();
-                //Debug.Log($"find target");
-
+                targetEnemy = target.GetComponent<IDamageable>();
             }
             else
             {
                 target = null;
                 targetEnemy = null;
             }
+
         }
+
         // Update is called once per frame
         protected virtual void Update()
         {
+            //ê°€ì¥ ê°€ê¹Œìš´ ì  ì°¾ê¸°
             /*countdown += Time.deltaTime;
             if(countdown >= searchTimer)
             {
+                //íƒ€ì´ë¨¸ ê¸°ëŠ¥(í•¨ìˆ˜) í˜¸ì¶œ
                 UpdateTarget();
+
+                //íƒ€ì–´ë¯¸ ì´ˆê¸°í™”
                 countdown = 0f;
             }*/
 
+            //íƒ€ê²Ÿì´ ì—†ìœ¼ë©´
             if (target == null)
                 return;
-            //Å¸°Ù Á¶ÁØ 
+
+            //íƒ€ê²Ÿ ì¡°ì¤€
             LockOn();
-            //Å¸°ÙÆÃÀÌ µÇ¸é ÅÍ·¿ÀÌ 1ÃÊ¸¶´Ù 1¹ß¾¿ ½î±â
-            //->Debug.Log("Shoot!!!!!");
+
+            //íƒ€ê²ŸíŒ…ì´ ë˜ë©´ í„°ë ›ì´ 1ì´ˆë§ˆë‹¤ 1ë°œì”© ì˜ê¸°            
             shootCountdown += Time.deltaTime;
             if (shootCountdown >= shootTimer)
             {
-                //Å¸ÀÌ¸Ó ±â´É - 1¹ß¾¿ ½î±â
+                //íƒ€ì´ë¨¸ ê¸°ëŠ¥ - 1ë°œì”© ì˜ê¸°
                 Shoot();
 
-                //timerÃÊ±âÈ­
+                //íƒ€ì´ë¨¸ ì´ˆê¸°í™”
                 shootCountdown = 0f;
             }
+
         }
-        //ÅºÈ¯ ¹ß»ç
+
+        //íƒ„í™˜ ë°œì‚¬
         private void Shoot()
-        { //Debug.Log("Shoot!!!");
-            GameObject bulletGo = Instantiate(bulletPrefab, FirePoint.position, Quaternion.identity);
+        {
+            GameObject bulletGo = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
             Bullet bullet = bulletGo.GetComponent<Bullet>();
             if (bullet != null)
             {
-                bullet.setTarget(target);
+                bullet.SetTarget(target);
             }
-
         }
 
+        //íƒ€ê²Ÿ ì¡°ì¤€
         protected void LockOn()
         {
+            //í„°ë › í—¤ë“œ íšŒì „
             Vector3 dir = target.position - this.transform.position;
             Quaternion targetRotation = Quaternion.LookRotation(dir);
-            Quaternion lookRotation = Quaternion.Lerp(partToRotate.rotation, targetRotation, Time.deltaTime * turnSpeed);
-            Vector3 eulerRotation = lookRotation.eulerAngles;           //4ÀÚ¸®¿¡¼­ 3ÀÚ¸® ±¸ÇÏ±â
+            Quaternion lookRoatation = Quaternion.Lerp(partToRotate.rotation, targetRotation, Time.deltaTime * turnSpeed);
+            Vector3 eulerRotation = lookRoatation.eulerAngles;  //4ìë¦¬ì— 3ìë¦¬ êµ¬í•˜ê¸°
             partToRotate.rotation = Quaternion.Euler(0f, eulerRotation.y, 0f);
         }
 
+        //íƒ€ì›Œ ì‚¬ê±°ë¦¬ ì˜ì—­ í‘œì‹œ
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;

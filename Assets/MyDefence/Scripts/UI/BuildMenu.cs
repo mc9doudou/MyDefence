@@ -1,33 +1,36 @@
 using UnityEngine;
+
 namespace MyDefence
 {
     public class BuildMenu : MonoBehaviour
     {
         #region Field
-        //Å¸¿ö(°Ç¼³) Á¤º¸¸¦ °¡Áö°í ÀÖ´Â °´Ã¼
+        //íƒ€ì›Œ(ê±´ì„¤) ì •ë³´ë¥¼ ê°€ì§€ê³  ìˆëŠ” ê°ì²´
         public TowerBluePrint machineGunTower;
         public TowerBluePrint rocketTower;
         public TowerBluePrint laserTower;
         #endregion
 
 
-        //MachineGunButten Å¬¸¯½Ã È£ÃâµÇ´Â ÇÔ¼ö
+        //MachineGunButton í´ë¦­ì‹œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
         public void MachineGunButton()
         {
-            //ºôµå¸Å´ÏÀúÀÇ  towerToBuild¿¡ machineGunPrefabÀ» ÀúÀåÇÑ´Ù
-            //Debug.Log("towerToBuild¿¡ machineGunPrefabÀ» ÀúÀåÇÑ´Ù");
+            //ë¹Œë“œë§¤ë‹ˆì €ì˜ towerToBuildì— machineGunì„ ì €ì¥í•œë‹¤
             BuildManager.Instance.SetTowerToBuild(machineGunTower);
         }
-    
+
+        //RocketTowerButton í´ë¦­ì‹œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
         public void RocketTowerButton()
         {
-            //Debug.Log("towerToBuild¿¡ RocketTowerButtonÀ» ÀúÀåÇÑ´Ù");
             BuildManager.Instance.SetTowerToBuild(rocketTower);
         }
 
+        //LaserTowerButton í´ë¦­ì‹œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
         public void LaserTowerButton()
         {
             BuildManager.Instance.SetTowerToBuild(laserTower);
         }
+
+
     }
 }

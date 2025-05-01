@@ -1,47 +1,61 @@
 using UnityEngine;
+
 namespace Sample
 {
-    // Å¸°ÙÀ¸·Î ÀÌµ¿ÇÑ´Ù
+    //íƒ€ê²Ÿìœ¼ë¡œ ì´ë™í•œë‹¤
     public class PlayerMoveTest : MonoBehaviour
     {
         #region Field
-        //ÀÌµ¿ ¼Óµµ
+        //ì´ë™ ì†ë„
         public float moveSpeed = 5f;
 
-        //Å¸°ÙÀ¸·Î ÀÌµ¿ÇÏ±âÀ§ÇØ¼­´Â Å¸°Ù ¿ÀºêÁ§Æ®ÀÇ transformÁ¤º¸°¡ ÇÊ¿ä
+        //íƒ€ê²Ÿì´ìœ¼ë¡œ ì´ë™í•˜ê¸°ìœ„í•´ì„œëŠ” íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ì˜ transform ì •ë³´ê°€ í•„ìš”
         public Transform target;
-        public GameObject targetgo;
+        public GameObject targetGo;
 
-        //Å¸°Ù ¿ÀºêÁ§Æ®¿¡ ºÙ¾î ÀÖ´Â TargetTest ÄÄÆ÷³ÍÆ®(½ºÅ©¸³Æ®)¿¡ °´Ã¼¸¦ GetComponent·Î  °¡Á®¿À±â  
+        //íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ ìˆëŠ” TargetTest ì»´í¬ë„ŒíŠ¸(ìŠ¤í¬ë¦½íŠ¸)ì˜ ê°ì²´ë¥¼ GetComponentë¡œ ê°€ì ¸ì˜¤ê¸°
         //private TargetTest targetTest;
 
-        //Å¸°Ù ¿ÀºêÁ§Æ®¿¡ ºÙ¾î ÀÖ´Â TargetTest ÄÄÆ÷³ÍÆ®(½ºÅ©¸³Æ®)¿¡ °´Ã¼¸¦ public·Î  °¡Á®¿À±â  
+        //íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ ìˆëŠ” TargetTest ì»´í¬ë„ŒíŠ¸(ìŠ¤í¬ë¦½íŠ¸)ì˜ ê°ì²´ë¥¼ publicìœ¼ë¡œ ê°€ì ¸ì˜¤ê¸°
         public TargetTest targetTest;
 
+        //ìì‹  ì˜¤ë¸Œì íŠ¸ì— ë¶™ì–´ ìˆëŠ” MyTest ì»´í¬ë„ŒíŠ¸(ìŠ¤í¬ë¦½íŠ¸)ì˜ ê°ì²´ë¥¼ GetComponentë¡œ ê°€ì ¸ì˜¤ê¸°
+        private MyTest myTest;
+        //public MyTest myTest;
         #endregion
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //ÂüÁ¶
+            //ì°¸ì¡°
             //targetTest = target.GetComponent<TargetTest>();
+            //targetTest.SetA(60);
+            //Debug.Log($"targetTest.a:{targetTest.GetA()}");
+            //targetTest.b = 30;
+            //Debug.Log($"targetTest.b:{targetTest.b}");
 
-            targetTest.SetA(60);
-            Debug.Log($"targetTest.a{targetTest.GetA()}");
-            //ÃÊ±âÈ­
-            targetTest.b = 30;
-            Debug.Log($"targetTest.b:{targetTest.b}");
+            //myTest = this.transform.GetComponent<MyTest>();
+            myTest = this.GetComponent<MyTest>();            
+
+            myTest.SetA(60);
+            Debug.Log($"myTest.a:{myTest.GetA()}");
+            myTest.b = 30;
+            Debug.Log($"myTest.b:{myTest.b}");
+
+            //ì´ˆê¸°í™”
+
         }
 
         // Update is called once per frame
         void Update()
         {
-            //ÀÌµ¿
+            //ì´ë™
             Vector3 dir = target.position - this.transform.position;
             this.transform.Translate(dir.normalized * Time.deltaTime * moveSpeed);
-
         }
     }
 }
+
 /*
 
 

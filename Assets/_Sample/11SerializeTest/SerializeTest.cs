@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace Sample
 {
     public class SerializeTest : MonoBehaviour
@@ -6,10 +7,10 @@ namespace Sample
         #region Field
         public int number = 10;
 
-        /*[SerializeField]
-        //private string name = "abcd";
+        
+        //private string name = "홍길동";
 
-        private string car = "ave";*/
+        private string car = "avanter";
 
         [SerializeField]
         private TestStruct testStruct;

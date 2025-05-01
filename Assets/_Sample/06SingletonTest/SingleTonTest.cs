@@ -1,21 +1,22 @@
 using UnityEngine;
+
 namespace Sample
 {
-    //MonoBehaviour¸¦ »ó¼Ó¹ŞÀº Å¬·¡½ºÀÇ ½Ì±ÛÅæ ÆĞÅÏ
-    public class SingleTonTest : MonoBehaviour
+    //MonoBehaviourë¥¼ ìƒì†ë°›ì€ í´ë˜ìŠ¤ì˜ ì‹±ê¸€í†¤ íŒ¨í„´
+    public class SingletonTest : MonoBehaviour
     {
-        //Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º º¯¼ö¸¦ Á¤Àû(static)º¯¼ö·Î ¼±¾ğ 
-        private static SingleTonTest instance;
-        
-        public static SingleTonTest Instance
+        //í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ ë³€ìˆ˜ë¥¼ ì •ì (static)ë³€ìˆ˜ë¡œ ì„ ì–¸
+        private static SingletonTest instance;
+
+        //publicí•œ ì†ì„±ë¡œ instanceë¥¼ ì „ì—­ì ìœ¼ë¡œ ì ‘ê·¼í•˜ê¸°
+        public static SingletonTest Instance
         {
             get
-            {
-                
+            {                
                 return instance;
             }
         }
-
+        
         private void Awake()
         {
             if(instance != null)
@@ -25,11 +26,13 @@ namespace Sample
             }
             instance = this;
 
-            //¾À Á¾·á½Ã ¿ÀºêÁ§Æ® »èÁ¦ ±İÁö
-            DontDestroyOnLoad(gameObject);
+            //ì”¬ ì¢…ë£Œì‹œ ì˜¤ë¸Œì íŠ¸ ì‚­ì œ ê¸ˆì§€
+            //DontDestroyOnLoad(gameObject);
         }
-        //ÇÊµå
+
+        //í•„ë“œ
         public int number;
+
 
     }
 }

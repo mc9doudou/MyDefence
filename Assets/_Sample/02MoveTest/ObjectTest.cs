@@ -1,22 +1,23 @@
 using UnityEngine;
+
 namespace Sample
 {
-
-
     public class ObjectTest : MonoBehaviour
     {
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
             // this.transform :
-            // ObjectTest °¡ ºÙ¾îÀÖ´Â GameObjectÀÇ TransformÀÇ ÀÎ½ºÅÏ½º(°´Ã¼)
-            Debug.Log(this.transform.ToString());
+            // ObjectTestê°€ ë¶™ì–´ìˆëŠ” ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ Transformì˜ ì¸ìŠ¤í„´ìŠ¤(ê°ì²´)
+            Debug.Log(this.transform.ToString());           
 
-            // ObjectTest °¡ ºÙ¾îÀÖ´Â GameObjectÀÇ gameObjectÀÇ ÀÎ½ºÅÏ½º(°´Ã¼)
+            // this.gameObject:
+            // ObjectTestê°€ ë¶™ì–´ìˆëŠ” ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ GameObjectì˜ ì¸ìŠ¤í„´ìŠ¤(ê°ì²´)
             Debug.Log(this.gameObject.ToString());
 
             //this.transform.gameObject == this.gameObject
             //this.gameObject.transform == this.transform
+
 
 
         }

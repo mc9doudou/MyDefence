@@ -1,43 +1,71 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using TMPro;
+
 namespace MyDefence
 {
     public class TileUI : MonoBehaviour
     {
-        public GameObject tileUI;
-        private GameObject tileOn;
+        #region Field
+        public GameObject offset;
 
-        private BuildManager buildManager;
+        //선택한 타일 
+        private Tile selectTile;
 
-        //public void 
+        //업그레이드 cost Text UI
+        public TextMeshProUGUI upgradeCost;
+        public Button upgradeButton;
 
-        private static bool isTileUI = false;
-        private void Update()
-        {
-            if (EventSystem.current.IsPointerOverGameObject() == true)
-            {
-                ShowTileUI();
-            }
-        }
-        void ShowTileUI()
-        {
-            isTileUI = true;
-            tileUI.SetActive(true);
-            //Instantiate(tileUI, tile.transform.position, Quaternion.identity);
-            
-        }
-
+        //판매 cost Text UI
+        public TextMeshProUGUI sellCost;
         
+        #endregion
 
-        void Upgrade()
+        //타일 UI 보이기
+        public void ShowTileUI(Tile tile)
         {
+            selectTile = tile;
+            this.transform.position = selectTile.transform.position;
 
+            if(selectTile.IsUpgrade)
+            {
+                //업그레이드 가격 표시
+                upgradeCost.text = "COMPLETE";
+                upgradeButton.interactable = false;
+            }
+            else
+            {
+                //업그레이드 가격 표시
+                upgradeCost.text = tile.bluePrint.upgradeCost.ToString() + "G";
+                upgradeButton.interactable = true;
+            }
+
+            sellCost.text = tile.bluePrint.SellCost.ToString() + "G";
+            offset.SetActive(true);
         }
 
-        void Sell()
+        //타일 UI 감추기
+        public void HideTileUI()
         {
+            offset.SetActive(false);
+        }
+
+        //업그레이드 버튼 클릭시 호출
+        public void UpgradeTower()
+        {
+            //선택된 타일에 있는 타워를 업그레이드 한다
+            selectTile.UpgradeTower();
+
+            //선택된 타일을 해제한다
+            BuildManager.Instance.DeselectTile();
+        }
+
+        public void SellTower()
+        {
+            selectTile.SellTower();
+
+            BuildManager.Instance.DeselectTile();
 
         }
     }
-
 }

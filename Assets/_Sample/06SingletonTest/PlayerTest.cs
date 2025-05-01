@@ -1,4 +1,5 @@
 using UnityEngine;
+
 namespace Sample
 {
     public class PlayerTest : MonoBehaviour
@@ -6,22 +7,25 @@ namespace Sample
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //static ¸â¹ö º¯¼ö È£Ãâ
-            //StaticTest.number = 10;
-            //Debug.Log($"StaticTest.number:{StaticTest.number}");
+            //static ë©¤ë²„ ë³€ìˆ˜ ì‚¬ìš©í•˜ê¸°
+            StaticTest.number = 10;
+            Debug.Log($"StaticTest.number: {StaticTest.number}");
 
-            //½Ì±ÛÅæ ÆĞÅÏ Å¬·¡½º ÀÎ½ºÅÏ½º »ı¼º(È£Ãâ, Á¢±Ù)
-            //SingleTon singleTon = new SingleTon();   //X
-            //Debug.Log(singleTon.ToString());
-            var singletonA = SingleTon.Instance;
-            var singletonB = SingleTon.Instance;
-            if (singletonA==singletonB)
+            //ì‹±ê¸€í†¤ íŒ¨í„´ í´ë˜ìŠ¤ ì¸ìŠ¤í„´ìŠ¤ ìƒì„±(í˜¸ì¶œ, ì ‘ê·¼)
+            //Singleton singleton = new Singleton(); // x
+            //Debug.Log(singleton.ToString());
+
+            /*var singletonA = Singleton.Instance;
+            var singletonB = Singleton.Instance;
+            if(singletonA == singletonB)
             {
                 Debug.Log(singletonA.ToString());
-            }
+            }*/
 
-            SingleTonTest.Instance.number = 99;
-            Debug.Log($"SingleTonTest.Instance.number: {SingleTonTest.Instance.number}");
+            //SingletonTest í´ë˜ìŠ¤ ì‚¬ìš©í•˜ê¸°
+            SingletonTest.Instance.number = 99;
+            Debug.Log($"SingletonTest.Instance.number: {SingletonTest.Instance.number}");
+
         }
 
         // Update is called once per frame

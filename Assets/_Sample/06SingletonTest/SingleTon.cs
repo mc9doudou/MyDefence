@@ -1,49 +1,42 @@
+using NUnit.Framework.Constraints;
 using UnityEngine;
+
 namespace Sample
 {
-    public class SingleTon
+    //ì‹±ê¸€í†¤ íŒ¨í„´ í´ë˜ìŠ¤
+    public class Singleton
     {
-        //Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º¸¦ Á¤Àû(static) º¯¼ö ¼±¾ğ
-        private static SingleTon instance;
+        //í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ì •ì (static) ë³€ìˆ˜ ì„ ì–¸
+        private static Singleton instance;
 
-        public static SingleTon Instance
+        //publicí•œ ì†ì„±ë¡œ instanceë¥¼ ì „ì—­ì ìœ¼ë¡œ ì ‘ê·¼í•˜ê¸°
+        public static Singleton Instance
         {
             get
             {
-                if (instance == null)
+                if(instance == null)
                 {
-                    instance = new SingleTon();
+                    instance = new Singleton();
                 }
                 return instance;
             }
         }
 
-        //publicÇÑ ¸Ş¼­µå·Î instance¸¦ Àü¿ªÀûÀ¸·Î Á¢±ÙÇÏ±â
-        /*public static SingleTon Instance()
+
+        //publicí•œ ë©”ì„œë“œë¡œ instanceë¥¼ ì „ì—­ì ìœ¼ë¡œ ì ‘ê·¼í•˜ê¸°
+        /*public static Singleton Instance()
         {
-            if (instance == null)
+            if(instance == null)
             {
-                instance = new SingleTon();
+                instance = new Singleton();
             }
             return instance;
         }*/
-
-        /*
-        »ı¼ºÀÚ 
-        public SingleTon()
-        {
-        
-        }
-        */
     }
 }
-/*
- ½ÌÅ¬Åæ Å¬·¡½º ÆĞÅÏ
-ÇÏ³ªÀÇ ÀÎ½ºÅÏ½º¸¸ Á¸Àç : new¸¦ 1¹ø¸¸ È£Ãâ
-Å¬·¡½ºÀÇ ÀÎ½ºÅÏ½º°¡ Àü¿ªÀû Á¢±Ù °¡´É : º¯¼ö static ¼±¾ğ
 
-1. SingletonÀÇ Æ¯Â¡
- Àü¿ª Á¢±Ù °¡´É: ¾îµğ¼­µç ÀÎ½ºÅÏ½º¸¦ ½±°Ô Á¢±ÙÇÒ ¼ö ÀÖÀ½.
- ¸Ş¸ğ¸® Àı¾à: ºÒÇÊ¿äÇÑ °´Ã¼ »ı¼ºÀ» ¸·°í, ÇÏ³ªÀÇ ÀÎ½ºÅÏ½º¸¦ °øÀ¯.
- °´Ã¼ °£ µ¥ÀÌÅÍ °øÀ¯: ¿©·¯ ½ºÅ©¸³Æ®¿¡¼­ µ¿ÀÏÇÑ ÀÎ½ºÅÏ½º¸¦ »ç¿ë.
+/*
+//ì‹±ê¸€í†¤ íŒ¨í„´ í´ë˜ìŠ¤
+1. í•˜ë‚˜ì˜ ì¸ìŠ¤í„´ìŠ¤ë§Œ ì¡´ì¬ : new ë¥¼ 1ë²ˆë§Œ í˜¸ì¶œ
+2. í´ë˜ìŠ¤ì˜ ì¸ìŠ¤í„´ìŠ¤ê°€ ì „ì—­ì  ì ‘ê·¼ ê°€ëŠ¥ : ë³€ìˆ˜ë¥¼ static ì„ ì–¸
 */

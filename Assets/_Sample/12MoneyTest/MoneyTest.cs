@@ -1,14 +1,16 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+
 namespace Sample
 {
+    //ê³¨ë“œë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
     public class MoneyTest : MonoBehaviour
     {
         #region Field
-        //¼ÒÁö±İ 
+        //ì†Œì§€ê¸ˆ
         private int gold;
-
+        private string gameMoney;
 
         [SerializeField]
         private int startGold;
@@ -20,20 +22,24 @@ namespace Sample
         public Button button1000;
         public Button button9000;
         #endregion
+
         private void Start()
         {
-            //ÃÊ±âÈ­ - °ÔÀÓ Ã³À½ ½ÃÀÛÇÒ¶§ startGold·Î ÃÊ±âÈ­
-            //¼ÒÁö±İ Áö±Ş
-            gold = startGold;
-            Debug.Log($"¼ÒÁö±İ {startGold}¿øÀ» Áö±ŞÇß½À´Ï´Ù");
+            //ì´ˆê¸°í™” - ê²Œì„ ì²˜ìŒ ì‹œì‘í• ë•Œ startGoldë¡œ ì´ˆê¸°í™”
+            //"GameMoney"ì´ë¦„ì´ë¡œ ì €ì¥ë„ë‹ˆ ì†Œì§€ê¸ˆ ìˆëŠ”ì§€ í™•ì¸
+            
+            SetText();
+            //Debug.Log($"ì†Œì§€ê¸ˆ {startGold}ì›ì„ ì§€ê¸‰í–ˆìŠµë‹ˆë‹¤");
 
-            //ex ¹öÆ° ÀÌ¹ÌÁö »ö±ò ¹Ù²Ù±â
-            button1000.image.color = Color.blue;
-
+            //ex ë²„íŠ¼ ì´ë¯¸ì§€ ìƒ‰ê¹” ë°”ê¾¸ê¸°
+            //button1000.image.color = Color.blue;
         }
+
         private void Update()
-        {//¼ÒÁö±İÀÌ ºÎÁ·ÇÏ¿© ±¸¸Å°¡ ºÒ°¡´ÉÇÒ °æ¿ì ÀÌ¹ÌÁö red
-            if (HasGold(1000))
+        {
+            //ì•„ì´í…œ êµ¬ë§¤ê°€ ê°€ëŠ¥í•˜ë©´ ë²„íŠ¼ ì´ë¯¸ì§€ëŠ” white, 
+            //ì†Œì§€ê¸ˆì´ ë¶€ì¡±í•˜ì—¬ êµ¬ë§¤ê°€ ë¶ˆê°€ëŠ¥í•˜ë©´ ë²„íŠ¼ ì´ë¯¸ì§€ëŠ” red
+            if(HasGold(1000))
             {
                 button1000.interactable = true;
                 //button1000.image.color = Color.white;
@@ -43,58 +49,83 @@ namespace Sample
                 button1000.interactable = false;
                 //button1000.image.color = Color.red;
             }
+
             if (HasGold(9000))
             {
-                button1000.interactable = true;
-                //button9000.image.color = Color.white;
+                button9000.image.color = Color.white;
             }
             else
             {
-                button1000.interactable = false;
-                //button9000.image.color = Color.red;
+                button9000.image.color = Color.red;
             }
-            //¼ÒÁö±İ(gold)¿Í UI(°ñµåÅØ½ºÆ®) ¿¬°á 
+
+            //ì†Œì§€ê¸ˆ(gold)ì™€ UI(goldText) ì—°ê²°
             goldText.text = gold.ToString() + " Gold";
+
         }
-        //Gold¸¦ ¿¬»êÇÏ´Â ÇÔ¼ö
-        //µ·À» ¹ø´Ù: »ç³É, Äù½ºÆ® Å¬¸®¾î, ÄÉ½¬ ±¸¸Å, ¹Ìº¥Æ® º¸»ó ...
+
+        /*public void SetInt(string GameMoney,int Value)
+        {
+            PlayerPrefs.SetInt("GameMoney", gold);
+        }
+
+        public int Getint(string GameMoney)
+        {
+            return PlayerPrefs.GetInt(gameMoney);
+        }*/
+
+        private void SetText()
+        {
+            gold = PlayerPrefs.GetInt("GameMoney", startGold);
+        }
+
+
+        //Goldë¥¼ ì—°ì‚°í•˜ëŠ” í•¨ìˆ˜
+        //ëˆì„ ë²ˆë‹¤: ì‚¬ëƒ¥, í€˜ìŠ¤íŠ¸ í´ë¦¬ì–´, ìºì‰¬ êµ¬ë§¤, ì´ë²¤íŠ¸ ë³´ìƒ....
         public void AddGold(int amount)
         {
             gold += amount;
+            PlayerPrefs.SetInt("GameMoney", gold);
+
+            //SetInt(gameMoney, gold);
         }
 
-        //µ·À» ¾´´Ù: ¾ÆÀÌÅÛ ±¸¸Å, ±â±¸ »ç¿ë....
-        //µ·ÀÌ ºÎÁ·ÇÏ¸é µ·À» »ç¿ëÇÏÁö ¾Ê°í return false;
-        //µ·ÀÌ ÃæºĞÇÏ¸é µ·À» »ç¿ëÇÏ°í return true;
-
+        //ëˆì„ ì“´ë‹¤ : ì•„ì´í…œ êµ¬ë§¤, ê¸°êµ¬ ì‚¬ìš©....
+        //ëˆì´ ë¶€ì¡±í•˜ë©´ ëˆì„ ì‚¬ìš©í•˜ì§€ ì•Šê³  return false;
+        //ëˆì´ ì¶©ë¶„í•˜ë©´ ëˆì„ ì‚¬ìš©í•˜ê³  return true;
         public bool UseGold(int amount)
         {
-            //¼ÒÁö±İ Ã¼Å©
-            if (gold < amount)
+            //ì†Œì§€ê¸ˆ ì²´í¬
+            if(gold < amount)
             {
-                Debug.Log("¼ÒÁö±İ ºÎÁ·ÇÕ´Ï´Ù");
+                //Debug.Log("ì†Œì§€ê¸ˆ ë¶€ì¡±í•©ë‹ˆë‹¤");
                 return false;
             }
+
             gold -= amount;
+            PlayerPrefs.SetInt("GameMoney", gold);
             return true;
         }
 
-        //¼ÒÁö±İ Ã¼Å©:amount ¸¸Å­ ¼ÒÁö±İÀ» °¡Áö°í ÀÖ´ÂÁö ¿©ºÎ
-        //µ·Àº »ç¿ëÇÏÁö ¾Ê°í
-
+        //ì†Œì§€ê¸ˆ ì²´í¬: amountë§Œí¼ ì†Œì§€ê¸ˆì„ ê°€ì§€ê³  ìˆëŠ”ì§€ ì—¬ë¶€
+        //ëˆì€ ì‚¬ìš©í•˜ì§€ ì•Šê³ 
         public bool HasGold(int amount)
         {
+            //ì†Œì§€ê¸ˆ ì²´í¬
             if (gold < amount)
             {
-                
                 return false;
             }
             
             return true;
+
         }
 
-        //¹öÆ° 3°³ Å¬¸¯½Ã È£ÃâµÇ´Â ÇÔ¼ö 3°³ ¸¸µé°í °¢ ¹öÆ°¿¡ ¿¬°áÇÏ¼¼¿ä
-        //¹öÆ° Å¬¸¯½Ã Gold °è»êÇÏ°í Ãâ·ÂÇÏ¼¼¿ä
+
+
+
+        //ë²„íŠ¼ 3ê°œ í´ë¦­ì‹œ í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜ 3ê°œ ë§Œë“¤ê³  ê° ë²„íŠ¼ì— ì—°ê²°í•˜ì„¸ìš”
+        //ë²„íŠ¼ í´ë¦­ì‹œ Gold ê³„ì‚°í•˜ê³  ì¶œë ¥í•˜ì„¸ìš”
         public void SaveButton()
         {
             AddGold(1000);
@@ -103,9 +134,9 @@ namespace Sample
 
         public void Item1000()
         {
-            if (UseGold(1000) == true)
+            if(UseGold(1000) == true)
             {
-                Debug.Log("1000 Item ±¸¸Å");
+                Debug.Log("1000 Item êµ¬ë§¤");
             }
         }
 
@@ -113,24 +144,26 @@ namespace Sample
         {
             if(UseGold(9000) == true)
             {
-                Debug.Log("9000 Item ±¸¸Å");
+                Debug.Log("9000 Item êµ¬ë§¤");
             }
-            
         }
-    
     }
 }
+
 /*
 MoneyTest
-1. ½ÃÀÛÇÏ¸é ¼ÒÁö±İÀ» 1000G Áö±Ş
-2. È­¸é»ó´Ü¿¡ ¼ÒÁö±İ UI Ç¥½Ã(1000 Gold)
-3. ¹öÆ° 3°³ 
-1) ÀúÃà ¹öÆ° : 1000G ÀúÃà, ¹öÆ° Å¬¸¯½Ã + 1000, "1000 Gold Save" Ãâ·Â
 
-2) ±¸¸Å ¹öÆ° : 1000G ¾ÆÀÌÅÛ ±¸¸Å, ¹öÆ° Å¬¸¯½Ã -1000, "1000 Item Purchase" Ãâ·Â
-3) ±¸¸Å ¹öÆ° : 9000G ¾ÆÀÌÅÛ ±¸¸Å, ¹öÆ° Å¬¸¯½Ã -9000, "9000 Item Purchase" Ãâ·Â
+1. ì‹œì‘í•˜ë©´ ì†Œì§€ê¸ˆ ìˆëŠ”ì§€ ì—†ëŠ”ì§€ ì²´í¬ - keyName = "GameMoney"
+- ì—†ëŠ” ê²½ìš° : start ë¨¸ë‹ˆ 1000ì› ì§€ê¸‰ 
+- ìˆëŠ” ê²½ìš° : ì €ì¥ëœ ê°’ ê°€ì ¸ì™€ì„œ gold ê°’ìœ¼ë¡œ ì„¤ì •
 
-±¸¸Å ¹öÆ° : ¾ÆÀÌÅÛ ±¸¸Å°¡ °¡´ÉÇÏ¸é ¹öÆ° ÀÌ¹ÌÁö´Â white, 
-           ¼ÒÁö±İ ºÎÁ·ÇÏ¿© ±¸¸Å°¡ ºÒ°¡´ÉÇÏ¸é ÀÌ¹ÌÁö red,
-           ±¸¸Å°¡ ºÒ°¡´ÉÇÏ¸é ±¸¸Å¹öÆ° Å¬¸¯ÇØµµ ±¸¸Å ºÒ°¡´ÉÇØ¾ß ÇÑ´Ù
+2. í™”ë©´ ìƒë‹¨ì— ì†Œì§€ê¸ˆ UI í‘œì‹œ ( 1000 Gold )
+3. ë²„íŠ¼ 3ê°œ
+1) ì €ì¶• ë²„íŠ¼ : 1000ì› ì €ì¶•, ë²„íŠ¼ í´ë¦­ì‹œ +1000, "1000 Gold Save" ì¶œë ¥ - gold Save
+2) êµ¬ë§¤ ë²„íŠ¼ : 1000ì› ì•„ì´í…œ êµ¬ë§¤, ë²„íŠ¼ í´ë¦­ì‹œ -1000, "1000 Item êµ¬ë§¤" ì¶œë ¥ - gold Save
+3) êµ¬ë§¤ ë²„íŠ¼ : 9000ì› ì•„ì´í…œ êµ¬ë§¤, ë²„íŠ¼ í´ë¦­ì‹œ -9000, "9000 Item êµ¬ë§¤" ì¶œë ¥ - gold Save
+ 
+êµ¬ë§¤ ë²„íŠ¼ : ì•„ì´í…œ êµ¬ë§¤ê°€ ê°€ëŠ¥í•˜ë©´ ë²„íŠ¼ ì´ë¯¸ì§€ëŠ” white, 
+           ì†Œì§€ê¸ˆì´ ë¶€ì¡±í•˜ì—¬ êµ¬ë§¤ê°€ ë¶ˆê°€ëŠ¥í•˜ë©´ ë²„íŠ¼ ì´ë¯¸ì§€ëŠ” red, 
+           êµ¬ë§¤ê°€ ë¶ˆê°€ëŠ¥í•˜ë©´ êµ¬ë§¤ë²„íŠ¼ì„ í´ë¦­í•´ë„ êµ¬ë§¤ê°€ ë¶ˆê°€ëŠ¥í•´ì•¼ í•œë‹¤
 */

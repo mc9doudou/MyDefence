@@ -2,27 +2,27 @@ using UnityEngine;
 
 namespace MyDefence
 {
-    //·¹ÀÌÀú Å¸¿ö¸¦ °ü¸®ÇÏ´Â Å¬·¡½º
+    //ë ˆì´ì € íƒ€ì›Œë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
     public class LaserTower : Tower
     {
         #region Field
-        public LineRenderer lineRenderer;  //·¹ÀÌÀúºö ±×¸®±â
-        public ParticleSystem impactEffect;
+        public LineRenderer lineRenderer;   //ë ˆì´ì €ë¹” ê·¸ë¦¬ê¸°
+        public ParticleSystem impactEffect; //ë ˆì´ì € ì„íŒ©íŠ¸ íš¨ê³¼
         public Light impactLight;
 
-        //ÃÊ´ç 30µ¥¹ÌÁö Ãß°¡
-        [SerializeField]
-        private float laserDamage = 30f;
-
-        //¼Óµµ 40% °¨¼Ó
-        [SerializeField]
-        private float slowRate = 0.4f;
+        //ì´ˆë‹¹ 30ë°ë¯¸ì§€ ì£¼ê¸°
+        [SerializeField] private float laserDamage = 30f;
+        //ì†ë„ 40% ê°ì†
+        [SerializeField] private float slowRate = 0.4f;
         #endregion
+
+
         protected override void Update()
         {
+            //íƒ€ê²Ÿì´ ì—†ìœ¼ë©´
             if (target == null)
             {
-                if (lineRenderer.enabled)
+                if(lineRenderer.enabled)
                 {
                     lineRenderer.enabled = false;
                     impactEffect.Stop();
@@ -30,26 +30,27 @@ namespace MyDefence
                 }
                 return;
             }
-                
-            //Å¸°Ù Á¶ÁØ 
+
+            //íƒ€ê²Ÿ ì¡°ì¤€
             LockOn();
 
+            //ë ˆì´ì € ë¹” ê·¸ë¦¬ê¸°
             Laser();
         }
+
         void Laser()
         {
-            //·¹ÀÌÀú È¿°ú ¿¬»êÇÏ±â
-
-            //ÀÌ¹ø ÇÁ·¹ÀÓ¿¡ ÁÖ´Â µ¥¹ÌÁö·®
-            float damage = laserDamage * Time.deltaTime;
-            
-            if (targetEnemy != null)
+            //ë ˆì´ì € íš¨ê³¼ ì—°ì‚°í•˜ê¸°            
+            //ì´ë²ˆ í”„ë ˆì„ì— ì£¼ëŠ” ë°ë¯¸ì§€ëŸ‰
+            float damage = laserDamage * Time.deltaTime;            
+            if(targetEnemy != null)
             {
-                targetEnemy.TakeDamage(damage);
+                targetEnemy.TakeDamege(damage);
                 targetEnemy.Slow(slowRate);
             }
+            
 
-            //·¹ÀÌÀú ºö ±×¸®±â
+            //ë ˆì´ì € ë¹” ê·¸ë¦¬ê¸°
             if (lineRenderer.enabled == false)
             {
                 lineRenderer.enabled = true;
@@ -57,17 +58,13 @@ namespace MyDefence
                 impactLight.enabled = true;
             }
 
-            lineRenderer.SetPosition(0, FirePoint.position);
+            lineRenderer.SetPosition(0, firePoint.position);
             lineRenderer.SetPosition(1, target.position);
 
-            //Å¸°Ù¿¡¼­ FirePoint¸¦ ¹Ù¶óº¸´Â ¹æÇâ ±¸ÇÏ±â
-            Vector3 dir = FirePoint.position - target.position;
-            impactEffect.transform.position = target.position + (dir.normalized / 2f);
+            //íƒ€ê²Ÿì—ì„œ FirePointë¥¼ ë°”ë¼ë³´ëŠ” ë°©í–¥ êµ¬í•˜ê¸°
+            Vector3 dir = firePoint.position - target.position;
+            impactEffect.transform.position = target.position + dir.normalized / 2f;
             impactEffect.transform.rotation = Quaternion.LookRotation(dir);
         }
-
-        
     }
-
-    
 }

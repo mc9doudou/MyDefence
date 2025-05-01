@@ -1,15 +1,16 @@
 using UnityEngine;
+
 namespace Sample
 {
     public class InitializedTest : MonoBehaviour
     {
-        //ÇÊµå ¼±¾ğºÎ¿¡¼­ ÃÊ±âÈ­
-        [SerializeField] private int number= 10;
+        //í•„ë“œ ì„ ì–¸ë¶€ì—ì„œ ì´ˆê¸°í™” 
+        [SerializeField] private int number = 10;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //start ÇÔ¼ö¿¡¼­ ÃÊ±âÈ­ 
+            //start í•¨ìˆ˜ì—ì„œ ì´ˆê¸°í™” 
             number = 20;
         }
 
@@ -19,11 +20,12 @@ namespace Sample
         }
     }
 }
+
 /*
-ÇÊµå ÃÊ±âÈ­ ¼ø¼­ 
-1. ÇÊµå ¼±¾ğºÎ¿¡¼­ ÃÊ±âÈ­µÈ °ªÀ» °¡Á®¿Í¼­ ÀúÀå
-2. ÀÎ½ºÆåÅÍÃ¢(¼Ó¼ºÃ¢)¿¡ ÀÔ·ÂµÈ °ªÀ» °¡Á®¿Í¼­ ÀúÀå
-3. Start ÇÔ¼ö¿¡¼­ ÃÊ±âÈ­µÈ °ªÀ» °¡Á®¿Í¼­ ÀúÀå 
+//í•„ë“œ ì´ˆê¸°í™” ì €ì¥ ìˆœì„œ
+1. í•„ë“œ ì„ ì–¸ë¶€ì—ì„œ ì´ˆê¸°í™”ëœ ê°’ì„ ê°€ì ¸ì™€ì„œ ì €ì¥
+2. ì¸ìŠ¤í™í„°ì°½ì— ì…ë ¥ëœ ê°’ì„ ê°€ì ¸ì™€ì„œ ì €ì¥
+3. start í•¨ìˆ˜ì—ì„œ ì´ˆê¸°í™”ëœ ê°’ì„ ê°€ì ¸ì™€ ì €ì¥
 
 
 */

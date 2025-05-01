@@ -1,47 +1,49 @@
 using UnityEngine;
-
 namespace MyDefence
 {
-    //Ä«¸Ş¶ó¸¦ Á¦¾îÇÏ´Â Å¬·¡½º
+    //ì¹´ë©”ë¼ë¥¼ ì œì–´í•˜ëŠ” í´ë˜ìŠ¤
     public class CameraController : MonoBehaviour
     {
         #region Field
-        //Ä«¸Ş¶ó ÀÌµ¿¼Óµµ
+        //ì¹´ë©”ë¼ ì´ë™ì†ë„
         public float moveSpeed = 10f;
 
-        //Ä«¸Ş¶ó ½ºÅ¬·Ñ ½ºÇÇµå
+        //ì¹´ë©”ë¼ ìŠ¤í¬ë¡¤ ìŠ¤í”¼ë“œ
         public float scrollSpeed = 10f;
         public float scrollMin = 10f;
-        public float scrollMax = 10f;
+        public float scrollMax = 40f;
 
-        //Ä«¸Ş¶ó ÄÁÆ®·Ñ Á¦¾î À¯¹«(true ÀÌ¸é ¸ø ¿òÁ÷ÀÎ´Ù,false ¿òÁ÷ÀÎ´Ù)
+        //ì¹´ë©”ë¼ ì»¨íŠ¸ë¡¤ ì œì–´ ìœ ë¬´ (trueì´ë©´ ëª» ì›€ì§ì¸ë‹¤, false: ì›€ì§ì¸ë‹¤)
         public bool isCannotMove = false;
         #endregion
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //ÃÊ±âÈ­
+            //ì´ˆê¸°í™”
             isCannotMove = false;
         }
 
         // Update is called once per frame
         void Update()
         {
-            //°ÔÀÓ ¿À¹ö Ã¼Å©
-            if (GameManager.IsGameOver == true)
+            //ê²Œì„ì˜¤ë²„ ì²´í¬
+            if (GameManager.IsGameOver)
                 return;
 
-            /*//esc key¸¦ ÇÑ¹ø ´©¸£¸é Ä«¸Ş¶ó ÀÌµ¿À» ¸øÇÏ°Ô ÇÑ´Ù isCannotMove = true (!isCannotMove)
-            //esc key¸¦ ´Ù½Ã ÇÑ¹ø ´©¸£¸é Ä«¸Ş¶ó ÀÌµ¿À» ÇÏ°Ô ÇÑ´Ù isCannotMove = false (!isCannotMove)
-
+            /*//esc keyë¥¼ í•œë²ˆ ëˆ„ë¥´ë©´ ì¹´ë©”ë¼ ì´ë™ì„ ëª»í•˜ê²Œ ë§‰ëŠ”ë‹¤ isCannotMove = true (!isCannotMove)
+            //esc keyë¥¼ ë‹¤ì‹œ í•œë²ˆ ëˆ„ë¥´ë©´ ì¹´ë©”ë¼ ì´ë™ì„ í•˜ê²Œ í•œë‹¤ isCannotMove = false (!isCannotMove)
             if (Input.GetKeyDown(KeyCode.Escape))
-            {isCannotMove = !isCannotMove;}
-            //isCannotMove°¡ trueÀÌ¸é return ¾Æ·¡ ÄÚµå¸¦ ½ÇÇàÇÏÁö ¸»¶ó 
-            if (isCannotMove) { return; }*/
+            {
+                isCannotMove = !isCannotMove;   //í† ê¸€ ê¸°ëŠ¥
+            }
 
-            //A,S,D,W Å° (Å°º¸µåÀÇ »óÇÏÁÂ¿ì È­»ìÇ¥)°ªÀ» ¹Ş¾Æ ¸ÊÀ» ½ºÅ©·Ñ ½ÃÅ²´Ù -> Ä«¸Ş¶ó ÀÌµ¿ ½ÃÅ°¸é
-            if (Input.GetKey(KeyCode.W)|| Input.GetKey(KeyCode.UpArrow))
+            //isCannotMoveê°€ trueì´ë©´ return ì•„ë˜ ì½”ë“œë¥¼ ì‹¤í–‰í•˜ì§€ ë§ë¼
+            if (isCannotMove)
+                return;*/
+
+            //W,S,A,D í‚¤ (ë˜ëŠ” í‚¤ë³´ë“œì˜ ìƒí•˜ì¢Œìš° í™”ì‚´í‘œ)ê°’ì„ ë°›ì•„
+            if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
             {
                 this.transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
             }
@@ -58,45 +60,38 @@ namespace MyDefence
                 this.transform.Translate(Vector3.right * Time.deltaTime * moveSpeed, Space.World);
             }
 
-            //¸¶¿ì½º Æ÷ÀÎÅÍ°¡ ½ºÅ©¸° »ó´Ü¿¡ À§Ä¡ÇÏ¸é 
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„° ìœ„ì¹˜ ê°€ì ¸ì˜¤ê¸°
             float mouseX = Input.mousePosition.x;
             float mouseY = Input.mousePosition.y;
-            if (mouseY > (Screen.height - 10) && mouseY <Screen.height)
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„°ê°€ ìŠ¤í¬ë¦° ìƒë‹¨ì— ìœ„ì¹˜í•˜ë©´
+            if (mouseY >= (Screen.height - 10) && mouseY < Screen.height)
             {
                 this.transform.Translate(Vector3.forward * Time.deltaTime * moveSpeed, Space.World);
             }
-            if (mouseY < 10 && mouseY > 0)
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„°ê°€ ìŠ¤í¬ë¦° í•˜ë‹¨ì— ìœ„ì¹˜í•˜ë©´
+            if (mouseY <= 10 && mouseY > 0)
             {
                 this.transform.Translate(Vector3.back * Time.deltaTime * moveSpeed, Space.World);
             }
-            if (mouseX > 0 && mouseX < 10)
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„°ê°€ ìŠ¤í¬ë¦° ì¢Œì¸¡ ëì— ìœ„ì¹˜í•˜ë©´
+            if (mouseX <= 10 && mouseX > 0)
             {
                 this.transform.Translate(Vector3.left * Time.deltaTime * moveSpeed, Space.World);
             }
-            if (mouseX > (Screen.width-10)&& mouseX < Screen.width)
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„°ê°€ ìŠ¤í¬ë¦° ìš°ì¸¡ ëì— ìœ„ì¹˜í•˜ë©´
+            if (mouseX >= Screen.width - 10 && mouseX < Screen.width)
             {
                 this.transform.Translate(Vector3.right * Time.deltaTime * moveSpeed, Space.World);
             }
-            //¸¶¿ì½º È»À» ½ºÅ©·ÑÇÏ¸é È­¸éÀÌ ÁÜÀÎ ÁÜ¾Æ¿ô ÇÑ´Ù
 
+            //ë§ˆìš°ìŠ¤ íœ ì„ ìŠ¤í¬ë¡¤í•˜ë©´ í™”ë©´ì´ ì¤Œì¸ ì¤Œì•„ì›ƒ í•œë‹¤ 
             float scroll = Input.GetAxis("Mouse ScrollWheel");
-            //Debug.Log($"scrollwheel: {scroll}");
-
+            //Debug.Log($"ScrollWheel: {scroll}");
             Vector3 upMove = this.transform.position;
-            upMove.y -= (scroll * 1000) * Time.deltaTime * scrollSpeed;
-            //(pos.y : 10f ÀÌ»ó, 40f ÀÌÇÏ)
-            upMove.y = Mathf.Clamp(upMove.y, scrollMin, scrollMax);
+            upMove.y -= (scroll * 1000) * Time.deltaTime * scrollSpeed;            
+            upMove.y = Mathf.Clamp(upMove.y, scrollMin, scrollMax); //(upMove.y : 10f ì´ìƒ, 40f ì´í•˜)
             this.transform.position = upMove;
 
-            /*if (scroll < 0.1)
-            {
-                this.transform.Translate(Vector3.up * Time.deltaTime * scrollSpeed, Space.World);
-            }
-            if (scroll > -0.1)
-            {
-                this.transform.Translate(Vector3.down * Time.deltaTime * scrollSpeed, Space.World);
-            }*/
         }
     }
 }
-

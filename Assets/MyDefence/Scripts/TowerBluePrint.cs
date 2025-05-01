@@ -1,14 +1,31 @@
 using UnityEngine;
 using System;
+
 namespace MyDefence
 {
-    //Å¸¿ö ¼Ó¼º(µ¥ÀÌÅÍ) Á¤ÀÇ Á÷·ÄÈ­ Å¬·¡½º
+    //íƒ€ì›Œ ì†ì„±(ë°ì´í„°) ì •ì˜ ì§ë ¬í™”ëœ í´ë˜ìŠ¤
     [Serializable]
     public class TowerBluePrint
     {
-        public GameObject towerPrefab;  //Å¸¿ö °Ç¼³¿¡ ÇÊ¿äÇÑ ÇÁ¸®ÆÕ
-        public int cost;                //Å¸¿ö °Ç¼³ ºñ¿ë
+        public GameObject towerPrefab;  //íƒ€ì›Œ ê±´ì„¤ì— í•„ìš”í•œ í”„ë¦¬íŒ¹
+        public int cost;                //íƒ€ì›Œ ê±´ì„¤ ë¹„ìš©
 
-        //...
+        public GameObject upgradePrefab;    //íƒ€ì›Œ ì—…ê·¸ë ˆì´ë“œì— í•„ìš”í•œ í”„ë¦¬íŒ¹
+        public int upgradeCost;             //íƒ€ì›Œ ì—…ê·¸ë ˆì´ë“œ ë¹„ìš©
+
+        public int SellCost
+        {
+            get { return cost / 2; }
+        }
+
+        //publci int sellCOst;
+        /*public int GetSellCost()
+        {
+            return cost / 2;
+        }*/
+
+        //....
     }
+
+    
 }

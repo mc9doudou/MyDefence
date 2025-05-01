@@ -1,18 +1,21 @@
 using UnityEngine;
+
 namespace Sample
 {
+    //ë²„íŠ¼ ê¸°ëŠ¥ í…ŒìŠ¤íŠ¸
     public class ButtonTest : MonoBehaviour
     {
-        //Fire ¹öÆ° Å¬¸¯½Ã È£ÃâµÇ´Â ÇÔ¼ö
+        //Fire ë²„íŠ¼ í´ë¦­ì‹œ (ì‹¤í–‰)í˜¸ì¶œë˜ëŠ” í•¨ìˆ˜
         public void FireButton()
         {
-            Debug.Log("Fire ¹öÆ°À» ´­·¶½À´Ï´Ù.");
+            Debug.Log("Fire ë²„íŠ¼ì„ ëˆŒë €ìŠµë‹ˆë‹¤");
         }
 
-        //Jump ¹öÆ° Å¬¸¯½Ã ÇÃ·¹ÀÌ¾î°¡ Á¡ÇÁ ÇÏ¿´½À´Ï´Ù
-        public void JumpButton()
+        //ì í”„ ë²„íŠ¼ í´ë¦­ì‹œ "í”Œë ˆì´ì–´ê°€ ì í”„ í•˜ì˜€ìŠµë‹ˆë‹¤" ì¶œë ¥
+        public void Jump()
         {
-            Debug.Log("Jump ¹öÆ°À» ´­·¶½À´Ï´Ù.");
+            Debug.Log("í”Œë ˆì´ì–´ê°€ ì í”„ í•˜ì˜€ìŠµë‹ˆë‹¤");
         }
+
     }
 }

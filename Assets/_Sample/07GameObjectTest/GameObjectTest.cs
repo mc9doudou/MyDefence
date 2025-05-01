@@ -1,67 +1,64 @@
-using MyDefence;
 using UnityEngine;
+
 namespace Sample
 {
-    //(ÇÏÀÌ¶óÅ°Ã¢¿¡ ÀÖ´Â)°ÔÀÓ¿ÀºêÁ§Æ®ÀÇ gameobject,transform ¿¡ Á¢±ÙÇÏ´Â ¹æ¹ı 
-    //°ÔÀÓ¿ÀºêÁ§Æ®ÀÇ GameObject, Transform Å¬·¡½ºÀÇ °´Ã¼¸¦ °¡Á®¿À´Â ¹æ¹ı
     public class GameObjectTest : MonoBehaviour
     {
-        #region Field
-        //2) ½ºÅ©¸³Æ®ÀÇ ÇÊµå ¼±¾ğºÎ¿¡¼­ Transform, GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º)¸¦ public·Î
-        //¼±¾ğÇÑ ÈÄ À¯´ÏÆ¼ÅøÀÇ ÀÎ½ºÆÑÅÍ Ã¢¿¡¼­ Á÷Á¢ °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ ¿¬°áÇÑ´Ù 
+        //(2) ìŠ¤í¬ë¦½íŠ¸ì˜ í•„ë“œ ì„ ì–¸ë¶€ì—ì„œ Transform, GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤)ë¥¼ publicìœ¼ë¡œ
+        //    ì„ ì–¸í•œ í›„ ìœ ë‹ˆí‹°íˆ´ì˜ ì¸ìŠ¤í™í„° ì°½ì—ì„œ ì§ì ‘ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ì—°ê²°í•œë‹¤
         public Transform publicTransform;
         public GameObject publicObject;
 
-        //3) °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ tag¸¦ ÀÌ¿ëÇÏ¿© GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â 
-        private GameObject[] tagObjects; 
+        //(3) ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ tagë¥¼ ì´ìš©í•˜ì—¬ GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+        private GameObject[] tagObejcts;
         private GameObject tagObject;
 
-        //4) ÇÁ¸®ÆÕ °ÔÀÓ¿ÀºêÁ§Æ® »ı¼º½Ã Instantiate ÇÔ¼öÀÇ ¹İÈ¯°ªÀ¸·Î GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-        public GameObject gameObjectPrefab;
+        //(4) í”„ë¦¬íŒ¹ ê²Œì„ì˜¤ë¸Œì íŠ¸ ìƒì„±ì‹œ Instantiate í•¨ìˆ˜ì˜ ë°˜í™˜ê°’ìœ¼ë¡œ GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+        public GameObject gameobjectPrefab;
 
-        //5) °°Àº Á¾·ù,±â´Éµé·Î ¹­¿©ÀÖ´Â °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-        // ºÎ¸ğ °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¸¸µé¾î¼­ ¹­Àº ´ÙÀ½
-        // ºÎ¸ğ ¿ÀºêÁ§Æ®¿¡ Á¢±ÙÇÏ¿© ÀÚ½Ä ¿ÀºêÁ§Æ²ÀÇ °´Ã¼¸¦ °¡Á®¿Â´Ù
+        //(5) ê°™ì€ ì¢…ë¥˜, ê¸°ëŠ¥ë“¤ë¡œ ë¬¶ì–´ì„œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+        //ë¶€ëª¨ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ë§Œë“¤ì–´ì„œ ë¬¶ì€ ë‹¤ìŒ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì— ì ‘ê·¼í•˜ì—¬ ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
         public Transform parentObject;
         private Transform[] childObjects;
 
-        //6) static, ½Ì±ÛÅæ ÆĞÅÏ µğÀÚÀÎÀ¸·Î °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-        private SingleTonTest singletonTest;
+        //(6) static, ì‹±ê¸€í†¤ íŒ¨í„´ ë””ìì¸ìœ¼ë¡œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+        private SingletonTest singletonTest;
 
-        #endregion
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //1) °ÔÀÓ ¿ÀºêÁ§Æ®¿¡ ½ºÅ©¸³Æ® ¼Ò½º¸¦ ÄÄÆ÷³ÍÆ®¸¦ Ãß°¡ÇÏ¿© Á÷Á¢(this.) °¡Á®¿Â´Ù
-            //this.transform;
-            //this.gameObject;
+            /*//(1) ê²Œì„ì˜¤ë¸Œì íŠ¸ì— ìŠ¤í¬ë¦½íŠ¸ ì†ŒìŠ¤ë¥¼ ì»´í¬ë„ŒíŠ¸ë¡¤ ì¶”ê°€í•˜ì—¬ ì§ì ‘(this.) ê°€ì ¸ì˜¨ë‹¤
+            this.transform
+            this.gameObject
+            //this.gameObject.transform
+            //this.transform.gameObject
 
-            //2) 
-            //publicObject
-            //publicTransform
+            //(2)
+            publicTransform
+            publicObject
 
-            //3) FindGameObjectsWithTag(), FindGameObjectWithTag() ¹İÈ¯°ªÀ¸·Î 
-            //°ÔÀÓ¿ÀºêÁ§Æ®ÀÇ °´Ã¼¸¦ °¡Á®¿Â´Ù
-            //tagObjects = GameObject.FindGameObjectsWithTag("tagString");
-            //tagObject = GameObject.FindGameObjectWithTag("tagString");
+            //(3) FindGameObjectsWithTag(), FindGameObjectWithTag() ë°˜í™˜ê°’ìœ¼ë¡œ
+            // ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
+            tagObejcts = GameObject.FindGameObjectsWithTag("tagString");
+            tagObject = GameObject.FindGameObjectWithTag("tagString");
 
-            //4) Instantiate(ÇÁ¸®ÆÕ ¿ÀºêÁ§Æ®, »ı¼ºÀ§Ä¡, »ı¼ºÈ¸Àü°ª)ÀÇ ¹İÈ¯°ªÀ¸·Î 
-            //GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-            //GameObject prefabGo = Instantiate(gameObjectPrefab, this.transform.position, Quaternion.identity);
+            //(4) Instantiate(í”„ë¦¬íŒ¹ì˜¤ë¸Œì íŠ¸, ìƒì„±ìœ„ì¹˜, ìƒì„±íšŒì „ê°’) ì˜ ë°˜í™˜ê°’ìœ¼ë¡œ
+            // ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
+            GameObject prefabGo = Instantiate(gameobjectPrefab, this.transform.position, Quaternion.identity);
 
-            //5)parentObject.childCount, parentObject.GetChild ¹İÈ¯°ªÀ¸·Î 
-            //ÀÚ½Ä °ÔÀÓ¿ÀºêÁ§Æ®µéÀÇ °´Ã¼¸¦ °¡Á®¿Â´Ù
-            /* childObjects = new Transform[parentObject.childCount];
-             for (int i = 0; i < childObjects.Length; i++)
-             {
-                 childObjects[i] = parentObject.GetChild(i);
-             }
-            */
-            //6) Å¬·¡½ºÀÌ¸§. °´Ã¼ÀÌ¸§ À¸·Î Á¢±ÙÇÏ¿© »ç¿ë
-            //SingleTonTest.Instance
-            //SingleTonTest.Instance.number = 10;
-            //singletonTest = SingleTonTest.Instance;
-            //singletonTest.number = 10;
+            //(5) parentObject.childCount, parentObject.GetChild ë°˜í™˜ê°’ìœ¼ë¡œ 
+            // ìì‹ ê²Œì„ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
+            childObjects = new Transform[parentObject.childCount];
+            for (int i = 0; i < childObjects.Length; i++)
+            {
+                childObjects[i] = parentObject.GetChild(i);
+            }
+
+            //(6) ì‹±ê¸€í†¤ íŒ¨í„´ ë””ìì¸ : í´ë˜ìŠ¤ì´ë¦„.ê°ì²´ì´ë¦„ ìœ¼ë¡œ ì ‘ê·¼í•˜ì—¬ ì‚¬ìš©
+            SingletonTest.Instance
+            SingletonTest.Instance.number = 10;
+            singletonTest = SingletonTest.Instance;
+            singletonTest.number = 10;*/
         }
 
         // Update is called once per frame
@@ -71,23 +68,22 @@ namespace Sample
         }
     }
 }
+
+
 /*
-(ÇÏÀÌ¶óÅ°Ã¢¿¡ ÀÖ´Â)°ÔÀÓ¿ÀºêÁ§Æ®ÀÇ gameobject,transform ¿¡ Á¢±ÙÇÏ´Â ¹æ¹ı 
-°ÔÀÓ¿ÀºêÁ§Æ®ÀÇ GameObject,Transform Å¬·¡½ºÀÇ °´Ã¼¸¦ °¡Á®¿À´Â ¹æ¹ı
+(í•˜ì´ë¼í‚¤ì°½ì— ìˆëŠ”) ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ gameobject, transform ì— ì ‘ê·¼í•˜ëŠ” ë°©ë²•
+ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ GameObject, Transform í´ë˜ìŠ¤ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¤ëŠ” ë°©ë²•
 
-1)  °ÔÀÓ ¿ÀºêÁ§Æ®¿¡ ½ºÅ©¸³Æ® ¼Ò½º¸¦ ÄÄÆ÷³ÍÆ®¸¦ Ãß°¡ÇÏ¿© Á÷Á¢(this.) °¡Á®¿Â´Ù
-2)  ½ºÅ©¸³Æ®ÀÇ ÇÊµå ¼±¾ğºÎ¿¡¼­ Transform, GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º)¸¦ public·Î
-    ¼±¾ğÇÑ ÈÄ À¯´ÏÆ¼ÅøÀÇ ÀÎ½ºÆÑÅÍ Ã¢¿¡¼­ Á÷Á¢ °ÔÀÓ ¿ÀºêÁ§Æ®¸¦ ¿¬°áÇÑ´Ù 
-3)  °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ tag¸¦ ÀÌ¿ëÇÏ¿© GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â 
-    FindGameObjectsWithTag(), FindGameObjectWithTag() ¹İÈ¯°ª ¹Ş¾Æ¿Â´Ù
-4)  Instantiate(ÇÁ¸®ÆÕ ¿ÀºêÁ§Æ®, »ı¼ºÀ§Ä¡, »ı¼ºÈ¸Àü°ª)ÀÇ ¹İÈ¯°ªÀ¸·Î 
-    GameObjectÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-5)  °°Àº Á¾·ù,±â´Éµé·Î ¹­¿©ÀÖ´Â °ÔÀÓ ¿ÀºêÁ§Æ®ÀÇ °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-    ºÎ¸ğ °ÔÀÓ¿ÀºêÁ§Æ®¸¦ ¸¸µé¾î¼­ ¹­Àº ´ÙÀ½
-    parentObject.childCount, parentObject.GetChild ¹İÈ¯°ªÀ¸·Î 
-    ÀÚ½Ä °ÔÀÓ¿ÀºêÁ§Æ®µéÀÇ °´Ã¼¸¦ °¡Á®¿Â´Ù
-6)  static : ½Ì±ÛÅæ ÆĞÅÏ µğÀÚÀÎÀ» ÀÌ¿ëÇÏ¿© °ÔÀÓ ¿ÀºêÁ§Æ® °´Ã¼(ÀÎ½ºÅÏ½º) °¡Á®¿À±â
-    Å¬·¡½ºÀÌ¸§.ÀÎ½ºÅÏ½ºÀÌ¸§, Å¬·¡½ºÀÌ¸§.Instance 
-
-
+1) ê²Œì„ì˜¤ë¸Œì íŠ¸ì— ìŠ¤í¬ë¦½íŠ¸ ì†ŒìŠ¤ë¥¼ ì»´í¬ë„ŒíŠ¸ë¡¤ ì¶”ê°€í•˜ì—¬ ì§ì ‘(this.) ê°€ì ¸ì˜¨ë‹¤
+2) ìŠ¤í¬ë¦½íŠ¸ì˜ í•„ë“œ ì„ ì–¸ë¶€ì—ì„œ Transform, GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤)ë¥¼ publicìœ¼ë¡œ
+   ì„ ì–¸í•œ í›„ ìœ ë‹ˆí‹°íˆ´ì˜ ì¸ìŠ¤í™í„° ì°½ì—ì„œ ì§ì ‘ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ì—°ê²°í•œë‹¤
+3) ê²Œì„ì˜¤ë¸Œì íŠ¸ì˜ tagë¥¼ ì´ìš©í•˜ì—¬ GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+   FindGameObjectsWithTag(), FindGameObjectWithTag() ë°˜í™˜ê°’ ë°›ì•„ì˜¤ê¸°
+4) í”„ë¦¬íŒ¹ ê²Œì„ì˜¤ë¸Œì íŠ¸ ìƒì„±ì‹œ Instantiate() í•¨ìˆ˜ì˜ ë°˜í™˜ê°’ìœ¼ë¡œ 
+   GameObjectì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+5) ê°™ì€ ì¢…ë¥˜, ê¸°ëŠ¥ë“¤ë¡œ ë¬¶ì–´ì„œ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤) ê°€ì ¸ì˜¤ê¸°
+   ë¶€ëª¨ ê²Œì„ ì˜¤ë¸Œì íŠ¸ë¥¼ ë§Œë“¤ì–´ì„œ ë¬¶ì€ ë‹¤ìŒ ë¶€ëª¨ ì˜¤ë¸Œì íŠ¸ì— ì ‘ê·¼í•˜ì—¬ ìì‹ ì˜¤ë¸Œì íŠ¸ë“¤ì˜ ê°ì²´ë¥¼ ê°€ì ¸ì˜¨ë‹¤
+   parentObject.childCount, parentObject.GetChild ë°˜í™˜ê°’ìœ¼ë¡œ ê°€ì ¸ì˜¤ê¸°
+6) static : ì‹±ê¸€í†¤ íŒ¨í„´ ë””ìì¸ì„ ì´ìš©í•˜ì—¬ ê²Œì„ ì˜¤ë¸Œì íŠ¸ ê°ì²´(ì¸ìŠ¤í„´ìŠ¤ ê°€ì ¸ì˜¤ê¸°)
+   í´ë˜ìŠ¤ì´ë¦„.ì¸ìŠ¤í„´ìŠ¤ì´ë¦„, í´ë˜ìŠ¤ì´ë¦„.Instance
 */

@@ -1,22 +1,21 @@
 using UnityEngine;
+
 namespace MyDefence
 {
-    //Å¸¿ö °Ç¼³À» °ü¸®ÇÏ´Â ½Ì±ÛÅæ ÆĞÅÏ Å¬·¡½º
+    //íƒ€ì›Œ ê±´ì„¤ì„ ê´€ë¦¬í•˜ëŠ” ì‹±ê¸€í†¤ íŒ¨í„´ í´ë˜ìŠ¤
     public class BuildManager : MonoBehaviour
     {
         #region Singleton
-        private static  BuildManager instance;
+        private static BuildManager instance;
 
         public static BuildManager Instance
         {
-            get
-            {
-                return instance;
-            }
+            get { return instance; }
         }
+
         private void Awake()
         {
-            if (instance != null)
+            if(instance != null)
             {
                 Destroy(gameObject);
                 return;
@@ -27,46 +26,68 @@ namespace MyDefence
         #endregion
 
         #region Field
-        //Å¸ÀÏ¿¡ ¼³Ä¡ÇÒ Å¸¿ö Á¤º¸¸¦ ÀúÀåÇÏ´Â º¯¼ö
+        //íƒ€ì¼ì— ì„¤ì¹˜í•  íƒ€ì›Œ ì •ë³´ë¥¼ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
         private TowerBluePrint towerToBuild;
-        //Å¸ÀÏ¿¡ ¼³Ä¡ÇÒ Å¸¿ö °Ç¼³ ºñ¿ë
-        private int cost;
 
+        //íƒ€ì¼ UI
+        public TileUI tileUI;
+
+        //ì„ íƒëœ íƒ€ì¼
+        private Tile selectTile;
         #endregion
+
         #region Property
-        //Å¸¿ö °Ç¼³ºñ¿ëÀ» Ã¼Å©: ºÎÁ·ÇÏ¸é true
+        //íƒ€ì›Œ ê±´ì„¤ ë¹„ìš©ì„ ì²´í¬: ë¶€ì¡±í•˜ë©´ true
         public bool NotEnoughMoney
         {
             get { return PlayerStats.Money < towerToBuild.cost; }
         }
 
-        //°Ç¼³ÇÒ Å¸¿ö°¡ ¾øÀ»¶§, °Ç¼³ÇÒ Å¸¿ö¸¦ ¼±ÅÃÇÏÁö ¾Ê¾ÒÀ»¶§
+        //ê±´ì„¤í•  íƒ€ì›Œê°€ ìˆëŠ”ì§€ ì²´í¬, ê±´ì„¤í•  íƒ€ì›Œë¥¼ ì„ íƒí•˜ì§€ ì•Šì•˜ì„ë•Œ
         public bool CannotBuild
         {
             get { return towerToBuild == null; }
         }
-
         #endregion
 
         private void Start()
         {
-            //ÃÊ±âÈ­
-            
+            //ì´ˆê¸°í™”
         }
-
-        //Å¸ÀÏ¿¡ ¼³Ä¡ÇÒ Å¸¿ö ÇÁ¸®Æé ¿ÀºêÁ§Æ® ÀúÀåÇÏ±â
         
+        //íƒ€ì¼ì— ì„¤ì¹˜í•  íƒ€ì›Œ ì •ë³´ë¥¼ ì–»ì–´ì˜¤ê¸°
         public TowerBluePrint GetTowerToBuild()
         {
             return towerToBuild;
         }
+
+        //íƒ€ì¼ì— ì„¤ì¹˜í•  íƒ€ì›Œ í”„ë¦¬íŒ¹ ì˜¤ë¸Œì íŠ¸ ì €ì¥í•˜ê¸°
         public void SetTowerToBuild(TowerBluePrint tower)
         {
+            //DeselectTile();
+
             towerToBuild = tower;
-            
         }
-        
-        
-    
+
+        //íƒ€ì›Œê°€ ì„¤ì¹˜ëœ íƒ€ì¼ì„ ì„ íƒ
+        public void SelectTile(Tile tile)
+        {
+            //ì´ì „ì— ì„ íƒí•œ íƒ€ì¼ê³¼ ì§€ê¸ˆ ì„ íƒí•œ íƒ€ì¼ì´ ê°™ìœ¼ë©´ ì„ íƒí•´ì œ
+            if(selectTile == tile)
+            {
+                DeselectTile();
+                return;
+            }
+
+            selectTile = tile;
+            tileUI.ShowTileUI(selectTile);
+        }
+
+        //ì„ íƒëœ íƒ€ì¼ í•´ì œ
+        public void DeselectTile()
+        {
+            tileUI.HideTileUI();
+            selectTile = null;
+        }
     }
 }

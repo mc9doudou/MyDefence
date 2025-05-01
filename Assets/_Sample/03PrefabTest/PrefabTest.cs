@@ -1,97 +1,85 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 namespace Sample
 {
-    
-
     public class PrefabTest : MonoBehaviour
     {
-        //Å¸ÀÏ ÇÁ¸®ÆÕ
-        public GameObject tileprefab;
-
+        //íƒ€ì¼ í”„ë¦¬íŒ¹
+        public GameObject tilePrefab;
 
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //
-            //Vector3 position = new Vector3(0f, 0f, 0f);    //»ı¼ºÇÒ À§Ä¡ ÁöÁ¤
+            //[1] í•˜ë‚˜ ìƒì„±
+            //Vector3 position = new Vector3(5f, 0, 8f);    //ìƒì„±í•  ìœ„ì¹˜ ì§€ì •
+            //Instantiate(tilePrefab, position, Quaternion.identity);
 
-            //Instantiate(tileprefab, position, Quaternion.identity);
+            //[2] n(10) x m(10) ìƒì„± - 5x5 7x7
+            //GenerateMap2(10, 10);
 
-            //[2]n(10) *m(10) »ı¼º - 5 *5 »ı¼º  7 *7 »ı¼º
-            //GenerateMap(5,5);
-            //GenerateMap2(5,5);
+            //[3] íƒ€ì¼ì„ ìƒì„± - xì¢Œí‘œë¥¼ 0~500ì‚¬ì´ì˜ ëœë¤ê°’, y=0, zì¢Œí‘œë¥¼ -500f~0ì‚¬ì´ì˜ ëœë¤ê°’
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    GenerateRandomMapTile();
+            //}
 
-            //[3] Å¸ÀÏÀ» »ı¼º -
-            //xÁÂÇ¥¸¦ 0~50f »çÀÌÀÇ ·»´ı°ª, y = 0, zÁÂÇ¥¸¦ -50f~0 »çÀÌÀÇ ·»´ı°ª 
-            /*for (int i = 0; i < 10; i++)
-            {
-                GenerateRandomMapTile();
-            }*/
-
-            //[4] Å¸ÀÏÀ» 10°³ »ı¼º, Å¸ÀÏÇÏ³ª »ı¼ºÇÒ¶§¸¶´Ù µô·¹ÀÌ 0.2ÃÊ
-            //ÄÚ·çÆ¾ Coroutine - Áö¿¬
+            //[4] íƒ€ì¼ì„ 10ê°œ ìƒì„±, íƒ€ì¼ í•˜ë‚˜ ìƒì„±í• ë•Œ ë”œë ˆì´ 0.2ì´ˆ ì¤€ë‹¤
+            //ì½”ë£¨í‹´( Coroutine ) í˜¸ì¶œ - 0.2ì´ˆ ì§€ì—°
             StartCoroutine(GenerateRandomMap());
+
         }
 
-        void GenerateMap(int row,int column)
+        void GenerateMap(int row, int column)
         {
-            for (int x = 0; x < row; x++)
+            for (int i = 0; i < row; i++)
             {
-                for (int y = 0; y < column; y++)
+                for (int j = 0; j < column; j++)
                 {
-                    Vector3 position = new Vector3(x * 5f, 0f, y * -5f);
-                    Instantiate(tileprefab, position, Quaternion.identity);
+                    Vector3 position = new Vector3(j*5f, 0f, i*-5f);
+                    Instantiate(tilePrefab, position, Quaternion.identity);
                 }
-                
             }
         }
-
 
         void GenerateMap2(int row, int column)
         {
-            for (int x = 0; x < row; x++)
+            for (int i = 0; i < row; i++)
             {
-                for (int y = 0; y < column; y++)
-                {
-                    
-                    GameObject go = Instantiate(tileprefab,this.transform);
-                    go.transform.position = new Vector3(x * 5f, 0f, y * -5f);
-                    //Vector3 position = new Vector3(x * 5f, 0f, y * -5f);
-                }
+                for (int j = 0; j < column; j++)
+                {                    
+                    GameObject go = Instantiate(tilePrefab, this.transform);
+                    go.transform.position = new Vector3(j * 5f, 0f, i * -5f);
 
+                }
             }
         }
-    
+
+
         void GenerateRandomMapTile()
         {
             float xPos = Random.Range(0f, 50f);
-            float zPos = Random.Range(-50f, 0f);
-            Vector3 position = new Vector3(xPos,0f,zPos);
-            Instantiate(tileprefab, position, Quaternion.identity);
-
+            float zPos = Random.Range(-50f, 0);
+            Vector3 position = new Vector3(xPos, 0f, zPos);
+            Instantiate(tilePrefab, position, Quaternion.identity);
         }
-    
+
+
         IEnumerator GenerateRandomMap()
         {
             for (int i = 0; i < 10; i++)
             {
-                
-                Vector3 position = new Vector3(Random.Range(0f, 50f), 0f, Random.Range(-50f, 0f));
-                Instantiate(tileprefab, position, Quaternion.identity);
+                Vector3 position = new Vector3(Random.Range(0f, 50f), 0f, Random.Range(-50f, 0));
+                Instantiate(tilePrefab, position, Quaternion.identity);
 
-                //0.2ÃÊ µô·¹ÀÌ
+                //0.2ì´ˆ ë”œë ˆì´
                 yield return new WaitForSeconds(0.2f);
             }
         }
 
-
     }
 }
+
 /*
-Å¸ÀÏÀ» 10x10À¸·Î ¹èÄ¡ÇØº¸¼¼¿ä
-
-
-
+íƒ€ì¼ì„ 10x10ìœ¼ë¡œ ë°°ì¹˜ë³´ì„¸ìš”
 */

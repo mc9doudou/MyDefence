@@ -1,8 +1,9 @@
 using UnityEngine;
 using TMPro;
 
-namespace MyDefence
+namespace Sample
 {
+    //Old InputSystem ì˜ˆì œ
     public class InputTest : MonoBehaviour
     {
         //UI Text
@@ -13,66 +14,79 @@ namespace MyDefence
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //½ºÅ©¸° Å©±â
-            Debug.Log($"Screen.width: {Screen.width}");
-            Debug.Log($"Screen.height: {Screen.height}");
+            //ìŠ¤í¬ë¦° í¬ê¸°
+            Debug.Log($"Screen Width: {Screen.width}");
+            Debug.Log($"Screen Height: {Screen.height}");
         }
 
         // Update is called once per frame
         void Update()
         {
-            //GetKey(Å°°ª)
-            /*if (Input.GetKey("w"))
+            //GetKey(í‚¤ê°’)
+            /*if(Input.GetKey("w"))
             {
-                Debug.Log("w");
+                Debug.Log("wí‚¤ë¥¼ ëˆ„ë¥´ê³  ìˆìŠµë‹ˆë‹¤");
             }
-            if (Input.GetKeyDown(KeyCode.W))
+            if(Input.GetKeyDown(KeyCode.W))
             {
-                Debug.Log("wÅ°¸¦ ´­·¶½À´Ï´Ù");
+                Debug.Log("wí‚¤ë¥¼ ëˆŒë €ìŠµë‹ˆë‹¤");
             }
-            if (Input.GetKeyUp("w"))
+            if(Input.GetKeyUp("w"))
             {
-                Debug.Log("wÅ°¸¦ ´­·¶´Ù°¡ ¶¼¾ú½À´Ï´Ù");
+                Debug.Log("wí‚¤ë¥¼ ëˆŒë €ë‹¤ê°€ ë–¼ì—ˆìŠµë‹ˆë‹¤");
             }*/
 
-            //GetButton(¹öÆ°ÀÌ¸§) - InputManager
-            /*if (Input.GetButton("Jump"))
+            //GetButton(ë²„íŠ¼ì´ë¦„) - InputManager
+            /*if(Input.GetButton("Jump"))
             {
-                Debug.Log("Á¡ÇÁ ¹öÆ°À» ´©¸£°í ÀÖ½À´Ï´Ù");
+                Debug.Log("ì í”„ ë²„íŠ¼ì„ ëˆ„ë¥´ê³  ìˆìŠµë‹ˆë‹¤");
             }
             if (Input.GetButtonDown("Jump"))
             {
-                Debug.Log("Á¡ÇÁ ¹öÆ°À» ´­·¶½À´Ï´Ù");
+                Debug.Log("ì í”„ ë²„íŠ¼ì„ ëˆŒë €ìŠµë‹ˆë‹¤");
             }
             if (Input.GetButtonUp("Jump"))
             {
-                Debug.Log("Á¡ÇÁ ¹öÆ°À» ´­·¶´Ù°¡ ¶¼¾ú½À´Ï´Ù");
+                Debug.Log("ì í”„ ë²„íŠ¼ì„ ëˆŒë €ë‹¤ê°€ ë–¼ì—ˆìŠµë‹ˆë‹¤");
             }*/
 
-            //GetAxis(AxisÀÌ¸§) - InputManager
+            //GetAxis(Axisì´ë¦„) - InputManager
             //float hValue = Input.GetAxis("Horizontal");
-            //Debug.Log($"Horizontal °ª : {hValue}");
+            //Debug.Log($"Horizontal ê°’: {hValue}");
             //a, left : -1 ~ 0
-            //d, right : 0 ~ 1 
+            //d, rigth : 0 ~ 1
+
             //float hValue = Input.GetAxisRaw("Horizontal");
-            //Debug.Log($"Horizontal °ª : {hValue}");
+            //Debug.Log($"Horizontal ê°’: {hValue}");
             //a, left : -1, 0
-            //d, right : 0, 1 
+            //d, rigth : 0, 1
 
             //float vValue = Input.GetAxis("Vertical");
-            //Debug.Log($"Vertical °ª :{vValue}");
+            //Debug.Log($"Vertical ê°’: {vValue}");
             //s, down : -1 ~ 0
             //w, up : 0 ~ 1
 
-            //¸¶¿ì½º Æ÷ÀÎÅÍÀÇ ½ºÅ©¸° À§Ä¡°ª ¾ò¾î¿À±â
+            //float vValue = Input.GetAxisRaw("Vertical");
+            //Debug.Log($"Vertical ê°’: {vValue}");
+            //s, down : -1, 0
+            //w, up : 0, 1
+
+            //ë§ˆìš°ìŠ¤ í¬ì¸í„°ì˜ ìŠ¤í¬ë¦° ìœ„ì¹˜ê°’ ì–»ì–´ì˜¤ê¸°
             float mouseX = Input.mousePosition.x;
             float mouseY = Input.mousePosition.y;
 
             //xText.text = "MouseX:" + ((int)mouseX).ToString();
             //yText.text = "MouseY:" + ((int)mouseY).ToString();
-            xText.text = "MouseX:" + ((int)mouseX).ToString() + "," + ((int)mouseY).ToString(); ;
-            xText.rectTransform.position = new Vector2(mouseX,mouseY);
+
+            xText.text = ((int)mouseX).ToString() + ", " + ((int)mouseY).ToString();
+            xText.rectTransform.position = new Vector2(mouseX, mouseY);
 
         }
     }
 }
+
+/*
+Old InputSystem
+New InputSystem
+
+*/

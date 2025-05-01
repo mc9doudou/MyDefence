@@ -1,23 +1,24 @@
 using UnityEngine;
+
 namespace MyDefence
 {
-    //ÅºÈ¯(¹ß»çÃ¼) °ü¸®ÇÏ´Â Å¬·¡½º
-
+    //íƒ„í™˜(ë°œì‚¬ì²´)ë¥¼ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤ - ëª¨ë“  ë°œì‚¬ì²´ì˜ ë¶€ëª¨ í´ë˜ìŠ¤
     public class Bullet : MonoBehaviour
     {
         #region Field
-        //Å¸°Ù ¿ÀºêÁ§Æ®
+        //íƒ€ê²Ÿ ì˜¤ë¸Œì íŠ¸
         private Transform target;
-        //ÀÌµ¿¼Óµµ
+        //ì´ë™ ì†ë„
         public float moveSpeed = 70f;
 
-        //Å¸°İeffect ÇÁ¸®ÆÕ
+        //íƒ€ê²© ì´í™íŠ¸ í”„ë¦¬íŒ¹
         public GameObject bulletImpactPrefab;
 
-        //°ø°İ µ¥¹ÌÁö 
+        //ê³µê²© ë°ë¯¸ì§€
         [SerializeField] protected float attackDamage = 50f;
         #endregion
-        public void setTarget(Transform _target)
+
+        public void SetTarget(Transform _target)
         {
             this.target = _target;
         }
@@ -25,54 +26,55 @@ namespace MyDefence
         // Update is called once per frame
         void Update()
         {
-            //ÀÌµ¿ ÇÏ±â
-            //dir.magnitude : µÎ º¤ÅÍ°£ÀÇ °Å¸®
-            if (target == null)
+            if(target == null)
             {
                 Destroy(this.gameObject);
                 return;
             }
-            Vector3 dir = target.position - this.transform.position;    
-            float distanceThisFrame = Time.deltaTime * moveSpeed;       //ÀÌ¹ø ÇÁ·¹ÀÓ¿¡ ÀÌµ¿ÇÏ´Â °Å¸®
-            if (dir.magnitude <= distanceThisFrame)
+
+            //ì´ë™í•˜ê¸°
+            //dir.magnitude : ë‘ ë²¡í„°ê°„ì˜ ê±°ë¦¬
+            Vector3 dir = target.position - this.transform.position; 
+            float ditanceThisFrame = Time.deltaTime * moveSpeed;    //ì´ë²ˆ í”„ë ˆì„ì— ì´ë™í•˜ëŠ” ê±°ë¦¬
+            if(dir.magnitude <= ditanceThisFrame)
             {
                 HitTarget();
                 return;
             }
-
             transform.Translate(dir.normalized * Time.deltaTime * moveSpeed, Space.World);
 
-            //Å¸°ÙÀ» ¹Ù¶óº¸¸ç ÀÌµ¿ÇÏ±â
+            //íƒ€ê²Ÿì„ ë°”ë¼ë³´ë©° ì´ë™í•˜ê¸°
             transform.LookAt(target);
         }
 
-
-        //Å¸°ÙÀ» ¸ÂÃß°í ÀûÀ» Å³ - bullet
+        //íƒ€ê²Ÿì„ ë§ì¶”ì–´ ì ì„ í‚¬ - ë·¸ë ›
         protected virtual void HitTarget()
         {
-            //Å¸°İ effect È¿°ú
-            GameObject effectGo = Instantiate(bulletImpactPrefab, this.transform.position,Quaternion.identity);
-            Destroy(effectGo,2f);
+            //íƒ€ê²© ì´í™íŠ¸ íš¨ê³¼
+            GameObject effectGo = Instantiate(bulletImpactPrefab, this.transform.position, Quaternion.identity);
+            Destroy(effectGo, 2f);
 
-            //Å¸°Ù¿¡°Ô ´ë¹ÌÁö ÁÖ±â
+            //íƒ€ê²Ÿì—ê²Œ ë°ë¯¸ì§€ ì£¼ê¸°
             Damage(target);
 
-            //ÅºÈ¯ ¿ÀºêÁ§Æ® Å³
+            //íƒ„í™˜ ê²Œì„ì˜¤ë¸Œì íŠ¸ í‚¬
             Destroy(this.gameObject);
         }
-        
-        //¸Å°³º¯¼ö·Î µé¾î¿Â Å¸°Ù¿¡°Ô µ¥¹ÌÁö ÁÖ±â
+
+        //ë§¤ê°œë³€ìˆ˜ë¡œ ë“¤ì–´ì˜¨ íƒ€ê²Ÿì—ê²Œ ë°ë¯¸ì§€ ì£¼ê¸°
         protected void Damage(Transform _target)
         {
-            //Å¸°Ù °ÔÀÓ¿ÀºêÁ§Æ® Å³ - ¿ø¼¦/¿øÅ³
+            //íƒ€ê²Ÿ ê²Œì„ì˜¤ë¸Œì íŠ¸ í‚¬ - ì›ìƒ·/ì›í‚¬
             //Destroy(_target.gameObject);
 
-            //attackDamage ¸¸Å­ Å¸°ÙÀÇ Health °¨»ê
-            Enemy enemy = _target.GetComponent<Enemy>();
-            if (enemy != null)
+            //attackDamageë§Œí¼ íƒ€ê²Ÿì˜ Health ì—°ì‚°
+            IDamageable enemy = _target.GetComponent<IDamageable>();
+            if(enemy != null)
             {
-                enemy.TakeDamage(attackDamage);
+                enemy.TakeDamege(attackDamage);
             }
         }
+
+        
     }
 }

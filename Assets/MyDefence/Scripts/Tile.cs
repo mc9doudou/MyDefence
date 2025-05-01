@@ -1,120 +1,199 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Playables;
+
 namespace MyDefence
 {
-    //¸ÊÀÇ Å¸ÀÏÀ» °ü¸®ÇÏ´Â Å¬·¡½º
+    //ë§µì˜ íƒ€ì¼ì„ ê´€ë¦¬í•˜ëŠ” í´ë˜ìŠ¤
     public class Tile : MonoBehaviour
     {
         #region Field
-        //»ö»ó ¼±ÅÃ
+        //ë§ˆìš°ìŠ¤ë¥¼ ì˜¬ë ¤ë†“ìœ¼ë©´ ë³€í•˜ëŠ” ìƒ‰
         //public Color hoverColor;
-        //Å¸ÀÏÀÇ ¿ø·¡ »ö±ò
-        //private Color startcolor;
+        //íƒ€ì¼ì˜ ì›ë˜ ìƒ‰ê¹”
+        //private Color startColor;
 
-        //¸¶¿ì½º¸¦ ¿Ã·Á³õÀ¸¸é º¯ÇÏ´Â ¸ŞÅÍ¸®¾ó
+        //ë§ˆìš°ìŠ¤ë¥¼ ì˜¬ë ¤ë†“ìœ¼ë©´ ë³€í•˜ëŠ” ë©”í„°ë¦¬ì–¼(ëˆì´ ì¶©ë¶„í• ë•Œ)
         public Material hoverMaterial;
+        //ë§ˆìš°ìŠ¤ë¥¼ ì˜¬ë ¤ë†“ìœ¼ë©´ ë³€í•˜ëŠ” ë©”í„°ë¦¬ì–¼(ëˆì´ ë¶€ì¡±í• ë•Œ)
+        public Material moneyMaterial;
 
-        public Material nullMaterial;
-
+        //íƒ€ì¼ì˜ ì›ë˜ ë©”í„°ë¦¬ì–¼
         private Material startMaterial;
 
-        //Å¸ÀÏÀÇ Renderer
+        //íƒ€ì¼ì˜ Renderer
         private Renderer renderer;
 
-        //BuildManager °´Ã¼
+        //BuildManager ê°ì²´
         private BuildManager buildManager;
 
-        //Å¸ÀÏ¿¡ ¼³Ä¡ÇÑ Å¸¿ö ¿ÀºêÁ§Æ®
+        //íƒ€ì¼ì— ì„¤ì¹˜í•œ íƒ€ì›Œ ì˜¤ë¸Œì íŠ¸
         private GameObject tower;
 
-        private TowerBluePrint bluePrint;
+        //íƒ€ì¼ì— ì„¤ì¹˜í•œ íƒ€ì›Œì˜ ì •ë³´ - í”„ë¦¬íŒ¹, ê°€ê²©ì •ë³´
+        public TowerBluePrint bluePrint;
 
-        //¼³Ä¡ÇÑ Å¸¿ö °¡Á®¿À±â
+        //íƒ€ì›Œ ê±´ì„¤ ì´í™íŠ¸ í”„ë¦¬íŒ¹
         public GameObject buildEffectPrefab;
+        //íƒ€ì›Œ íŒë§¤ ì´íŒ©íŠ¸ í”„ë¦¬íŒ¹
+        public GameObject SellEffectPrefab;
+
         #endregion
+
+        #region Property
+        //íƒ€ì›Œ ì—…ê·¸ë ˆì´ë“œ ì—¬ë¶€
+        public bool IsUpgrade { get; private set; }
+        #endregion
+
         // Start is called once before the first execution of Update after the MonoBehaviour is created
         void Start()
         {
-            //ÂüÁ¶
-            renderer = this.transform.GetComponent<Renderer>();
+            //ì°¸ì¡°
             buildManager = BuildManager.Instance;
-            //ÃÊ±âÈ­
-            //startcolor = renderer.material.color;
+            renderer = this.transform.GetComponent<Renderer>();
+
+            //ì´ˆê¸°í™”
+            //startColor = renderer.material.color;
             startMaterial = renderer.material;
+            IsUpgrade = false;
         }
-        
+
         private void OnMouseDown()
         {
-            //Å¸ÀÏÀ§¿¡ UI°¡ ÀÖ´ÂÁö Ã¼Å© 
+            //íƒ€ì¼ìœ„ì— UIê°€ ìˆëŠ”ì§€ ì²´í¬
             if(EventSystem.current.IsPointerOverGameObject() == true)
             {
                 return;
             }
-            //ÀúÀåµÈ ÇÁ¸®ÆÕ Ã¼Å©
-            if (buildManager.CannotBuild)
-            {
-                Debug.Log("¼³Ä¡ÇÒ Å¸¿öÀÌ ¾ø½À´Ï´Ù");
-                return;
-            }
-            //ÇöÀç Å¸ÀÏ¿¡ Å¸¿ö°¡ ¼³Ã¼µÇ¾ú´ÂÁö Ã¼Å©
+
+            //í˜„ì¬ íƒ€ì¼ì— íƒ€ì›Œê°€ ì„¤ì¹˜ë˜ì—ˆëŠ”ì§€ ì²´í¬
             if (tower != null)
             {
-                Debug.Log("Å¸¿ö¸¦ ¼³Ä¡ÇÒ¼ö ¾ø½À´Ï´Ù");
+                buildManager.SelectTile(this);
                 return;
             }
-            //Å¸¿ö¸¦ °Ç¼³ÇÑ´Ù
-            BuildTower();
-            
-        }
 
-        void BuildTower()
-        {
-            //°Ç¼³ ºñ¿ë Ã¼Å©
-            
-            if (buildManager.NotEnoughMoney)
-                return;
-            
-            //°Ç¼³ÇÒ Å¸¿öÀÇ Á¤º¸¸¦ ÀúÀå
-            bluePrint = buildManager.GetTowerToBuild();
-
-            //µ· °è»ê
-            PlayerStats.UseMoney(bluePrint.cost);
-            //Debug.Log("ÀÌ ½ºÅ©¸³Æ®°¡ ºÙ¾îÀÖ´Â Å¸ÀÏÀ§¿¡ ÅÍ·¿À» ¼³Ä¡");
-            tower = Instantiate(bluePrint.towerPrefab, this.transform.position, Quaternion.identity);
-
-            //°Ç¼³ ÀÌÆÑÆ® Ã³¸®
-            GameObject effectGo = Instantiate(buildEffectPrefab, this.transform.position,Quaternion.identity);
-            Destroy(effectGo,2f);
-            
-            //ÃÊ±âÈ­ - ÀúÀåµÈ Å¸¿ö ÇÁ¸®ÆÕ ÃÊ±âÈ­ 
-            buildManager.SetTowerToBuild(null);
-
-            Debug.Log($"°Ç¼³ÇÏ°í ´ÔÀºµ·:{PlayerStats.Money}");
-        }
-        private void OnMouseEnter()
-        {
-            
+            //ì €ì¥ëœ í”„ë¦¬íŒ¹ ì²´í¬
             if (buildManager.CannotBuild)
             {
-                //Debug.Log("¼³Ä¡ÇÒ Å¸¿öÀÌ ¾ø½À´Ï´Ù");
+                //Debug.Log("ì„¤ì¹˜í•  íƒ€ì›Œê°€ ì—†ìŠµë‹ˆë‹¤");
                 return;
             }
-            if (buildManager.NotEnoughMoney)
+
+            //íƒ€ì›Œ ê±´ì„¤
+            BuildTower();
+
+            /*if (button != false)
             {
-                renderer.material = nullMaterial;
+                
+                BuildManager.Instance.DeselectTile();
+            }*/
+        }
+
+        //íƒ€ì›Œ ê±´ì„¤
+        void BuildTower()
+        {
+            //ê±´ì„¤ë¹„ìš© ì²´í¬
+            if (buildManager.NotEnoughMoney)
+                return;
+
+            //ê±´ì„¤í•  íƒ€ì›Œì˜ ì •ë³´ë¥¼ ì €ì¥
+            bluePrint = buildManager.GetTowerToBuild();
+            
+            //ëˆ ê³„ì‚°
+            PlayerStats.UseMoney(bluePrint.cost);
+
+            //íƒ€ì¼ìœ„ì— í„°ë ›ì„ ì„¤ì¹˜
+            tower = Instantiate(bluePrint.towerPrefab, this.transform.position, Quaternion.identity);
+
+            //ê±´ì„¤ ì´í™íŠ¸ ìƒì„±í•œ í›„ 2ì´ˆí›„ì— í‚¬
+            GameObject effectGo = Instantiate(buildEffectPrefab, this.transform.position, Quaternion.identity);
+            Destroy(effectGo, 2f);
+            
+            //ì´ˆê¸°í™” - ì €ì¥ëœ íƒ€ì›Œ ì •ë³´ë¥¼ ì´ˆê¸°í™”
+            buildManager.SetTowerToBuild(null);
+        }
+
+        //íƒ€ì›Œ ì—…ê·¸ë ˆì´ë“œ
+        public void UpgradeTower()
+        {
+            //ì—…ê·¸ë ˆì´ë“œ ë¹„ìš© ì²´í¬
+            if(PlayerStats.HasMoney(bluePrint.upgradeCost) == false)
+            {
+                //Debug.Log("ëˆì´ ë¶€ì¡±í•©ë‹ˆë‹¤");
+                return;
+            }
+
+            //ë¹„ìš© ì§€ë¶ˆ
+            PlayerStats.UseMoney(bluePrint.upgradeCost);
+
+            //ê¸°ì¡´ ì„¤ì¹˜ëœ íƒ€ì›Œ í‚¬
+            Destroy(tower);
+
+            IsUpgrade = true;
+
+            //ì—…ê·¸ë ˆì´ë“œ í”„ë¦¬íŒ¹ ì„¤ì¹˜
+            tower = Instantiate(bluePrint.upgradePrefab, this.transform.position, Quaternion.identity);
+
+            //ì´í™íŠ¸ - ê±´ì„¤ì´í™íŠ¸ì™€ ê°™ì€ê²ƒ ì‚¬ìš©
+            GameObject effectGo = Instantiate(buildEffectPrefab, this.transform.position, Quaternion.identity);
+            Destroy(effectGo, 2f);
+
+            //ì´ˆê¸°í™” - ì €ì¥ëœ íƒ€ì›Œ ì •ë³´ë¥¼ ì´ˆê¸°í™”
+            buildManager.SetTowerToBuild(null);
+        }
+
+        public void SellTower()
+        {
+            int sellMoney = bluePrint.SellCost;
+            
+
+            //íƒ€ì›Œ ì œê±°
+            Destroy(tower);
+            
+            //íƒ€ì›Œ ì •ë³´
+            bluePrint = null;
+
+            IsUpgrade = false;
+
+            //íŒë§¤ ì´íŒ©íŠ¸
+            GameObject effectGo = Instantiate(SellEffectPrefab, this.transform.position, Quaternion.identity);
+            Destroy(effectGo, 2f);
+
+            //íŒë§¤ ëŒ€ê¸ˆ íšŒìˆ˜
+            PlayerStats.AddMoney(sellMoney);
+        }
+
+        private void OnMouseEnter()
+        {
+            //íƒ€ì¼ìœ„ì— UIê°€ ìˆëŠ”ì§€ ì²´í¬
+            if (EventSystem.current.IsPointerOverGameObject() == true)
+            {
+                return;
+            }
+
+            //ì €ì¥ëœ í”„ë¦¬íŒ¹ ì²´í¬
+            if (buildManager.CannotBuild)
+            {
+                //Debug.Log("ì„¤ì¹˜í•  íƒ€ì›Œê°€ ì—†ìŠµë‹ˆë‹¤");
+                return;
+            }
+
+            //renderer.material.color = hoverColor;
+            if(buildManager.NotEnoughMoney)
+            {
+                renderer.material = moneyMaterial;
             }
             else
             {
-                //renderer.material.color = hoverColor;
                 renderer.material = hoverMaterial;
             }
         }
+
         private void OnMouseExit()
         {
-            //renderer.material.color = startcolor;
+            //renderer.material.color = startColor;
+            //renderer.material.color = Color.white;
             renderer.material = startMaterial;
         }
     }
 }
-
